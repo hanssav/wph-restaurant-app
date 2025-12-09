@@ -26,7 +26,7 @@ export const useLogin = () => {
     mutationFn: (data: LoginFormData) => authService.login(data),
     onSuccess: (response) => {
       dispatch(setCredentials(response.data));
-      router.push('/dashboard');
+      router.push('/home');
     },
   });
 };
@@ -53,6 +53,6 @@ export const useLogout = () => {
   return () => {
     dispatch(logout());
     queryClient.clear();
-    router.push('/login');
+    router.push('/auth');
   };
 };
