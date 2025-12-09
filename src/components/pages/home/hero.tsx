@@ -19,7 +19,7 @@ export const Hero = () => {
         <div className='absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0)_-60%,rgba(0,0,0,0.8)_110%)]' />
       </div>
 
-      <div className='w-full h-[827px] absolute top-0 flex-col-center text-white gap-6 md:gap-10'>
+      <div className='w-full h-[827px] relative top-0 flex-col-center text-white gap-6 md:gap-10'>
         <div className='space-y-1 md:space-y-2 flex-col-center'>
           <h1 className='text-display-lg-extrabold md:text-display-2xl-extrabold'>
             {title}
