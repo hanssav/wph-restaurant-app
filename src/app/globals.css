@@ -210,6 +210,18 @@
   }
 }
 
+@utility container-x {
+  @apply max-w-302 mx-auto my-0 px-6;
+}
+
+@utility container-y {
+  /* actual value is 4 */
+  @apply py-6;
+}
+@utility shadow-card {
+  box-shadow: 0px 0px 20px 0px #cbcaca40;
+}
+
 @utility flex-center {
   @apply flex flex-row items-center justify-center;
 }
