@@ -33,7 +33,7 @@ export const FormFields = <T extends FieldValues>({
   return (
     <FormField
       control={control}
-      name={config.name as Path<T>}
+      name={config.name}
       render={({ field }) => {
         const hasValue =
           field.value !== undefined &&
@@ -213,9 +213,9 @@ export const FormFields = <T extends FieldValues>({
               <FormLabel
                 htmlFor={fieldId}
                 className={cn(
-                  'absolute left-4 pointer-events-none transition-all duration-200 ease-in-out',
+                  'absolute left-3 pointer-events-none transition-all duration-200 ease-in-out',
                   shouldFloat
-                    ? 'top-2 text-xs text-neutral-600 font-medium'
+                    ? 'top-1.5 text-xs text-neutral-600 font-medium'
                     : 'top-1/2 -translate-y-1/2 text-sm md:text-base text-neutral-500'
                 )}
               >

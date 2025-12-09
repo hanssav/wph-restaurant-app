@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { logout, setCredentials, updateUser } from '@/store/slice/auth-slice';
 import { LoginFormData, RegisterFormData } from '@/lib/schema';
 import { authService } from '@/services';
+import { PATH } from '@/constants';
 
 export const useRegister = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +14,7 @@ export const useRegister = () => {
     mutationFn: (data: RegisterFormData) => authService.register(data),
     onSuccess: (response) => {
       dispatch(setCredentials(response.data));
-      router.push('/home');
+      router.push(PATH.HOME);
     },
   });
 };
@@ -26,7 +27,7 @@ export const useLogin = () => {
     mutationFn: (data: LoginFormData) => authService.login(data),
     onSuccess: (response) => {
       dispatch(setCredentials(response.data));
-      router.push('/home');
+      router.push(PATH.HOME);
     },
   });
 };
@@ -53,6 +54,6 @@ export const useLogout = () => {
   return () => {
     dispatch(logout());
     queryClient.clear();
-    router.push('/auth');
+    router.push(PATH.AUTH);
   };
 };

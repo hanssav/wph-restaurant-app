@@ -1,3 +1,4 @@
+import { PATH } from '@/constants';
 import { ErrorResponse } from '@/types';
 import axios, { AxiosError } from 'axios';
 
@@ -32,7 +33,7 @@ apiInstance.interceptors.response.use(
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/auth';
+        window.location.href = PATH.AUTH;
       }
     }
     return Promise.reject(error);

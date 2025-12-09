@@ -1,6 +1,6 @@
 'use client';
 
-import { IMAGES } from '@/constants';
+import { IMAGES, PATH } from '@/constants';
 import { useAppSelector } from '@/store/hooks';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ const AuthLayout = ({ children }: Props) => {
 
   React.useEffect(() => {
     if (isAuthenticated) {
-      router.push('/home');
+      router.push(PATH.HOME);
     }
   }, [isAuthenticated, router]);
 
