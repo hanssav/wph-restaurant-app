@@ -242,6 +242,10 @@
   @apply flex flex-col justify-center items-start;
 }
 
+@utility flex-col-center {
+  @apply flex flex-col justify-center items-center;
+}
+
 @utility container-auth {
   @apply max-w-[374px] mx-auto my-0 px-4 md:px-0;
 }

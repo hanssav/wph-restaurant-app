@@ -36,7 +36,7 @@ const Header = () => {
       <HeaderLogo isHome={isHome} onClick={() => router.push(PATH.HOME)} />
 
       {isLogin ? (
-        <div className='flex-start gap-4 md:gap-6'>
+        <div className='flex-start gap-4 md:gap-6 relative z-50'>
           <HeaderCart isHome={isHome} />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

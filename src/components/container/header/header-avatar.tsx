@@ -10,7 +10,9 @@ export const HeaderAvatar = ({
   return (
     <div className='flex-center overflow-hidden gap-4 max-w-[137px]'>
       <Avatar src={src} alt={username ?? 'user-avatar'} />
-      <p className='hidden md:block text-lg-semibold truncate'>{username}</p>
+      <p className='hidden md:block text-lg-semibold truncate text-white'>
+        {username}
+      </p>
     </div>
   );
 };
