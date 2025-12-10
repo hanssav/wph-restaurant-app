@@ -2,41 +2,24 @@ import {
   QueryKey,
   useInfiniteQuery as useReactInfiniteQuery,
   UseInfiniteQueryOptions,
+  InfiniteData,
 } from '@tanstack/react-query';
 
 /**
- * Type constraint for responses that contain pagination
- */
-type PaginatedData = {
-  pagination: {
-    page: number;
-    totalPages: number;
-  };
-};
-
-/**
- * Type constraint for API responses with success flag
- */
-type ApiResponseWithPagination<T extends PaginatedData> = {
-  success: boolean;
-  data?: T;
-};
-
-/**
- * Reusable useInfiniteQuery hook for paginated data
- * Works with ApiResponse<T> where T contains pagination field
+ * Custom useInfiniteQuery hook for paginated data
  *
  * @example
- * const { data, fetchNextPage } = useInfiniteQuery(
+ * const { data } = useInfiniteQuery(
  *   ['restaurants', filters],
  *   restaurantService.getAll,
- *   { location: 'Jakarta' }
+ *   filters
  * );
+ *
+ * // Access data - TypeScript will infer correctly!
+ * data?.pages[0]?.data?.restaurants
  */
-
 export function useInfiniteQuery<
-  TData extends PaginatedData,
-  TResponse extends ApiResponseWithPagination<TData> = ApiResponseWithPagination<TData>,
+  TResponse,
   TParams extends Record<string, unknown> = Record<string, unknown>,
   TError = Error
 >(
@@ -46,28 +29,50 @@ export function useInfiniteQuery<
   ) => Promise<TResponse>,
   filters?: TParams,
   options?: Omit<
-    UseInfiniteQueryOptions<TResponse, TError, TResponse, QueryKey, number>,
+    UseInfiniteQueryOptions<
+      TResponse,
+      TError,
+      InfiniteData<TResponse>,
+      QueryKey,
+      number
+    >,
     'queryKey' | 'queryFn' | 'initialPageParam' | 'getNextPageParam'
   >
 ) {
-  return useReactInfiniteQuery({
+  return useReactInfiniteQuery<
+    TResponse,
+    TError,
+    InfiniteData<TResponse>,
+    QueryKey,
+    number
+  >({
     queryKey,
-    queryFn: ({ pageParam }: { pageParam: number }) =>
+    queryFn: ({ pageParam }) =>
       serviceFn({
         ...filters,
         page: pageParam,
         limit: (filters?.limit as number | undefined) || 10,
       } as TParams & { page: number; limit?: number }),
     initialPageParam: 1,
-    getNextPageParam: (lastPage: TResponse) => {
-      if (lastPage.success && lastPage.data?.pagination) {
-        const { pagination } = lastPage.data;
-        if (pagination.page < pagination.totalPages) {
-          return pagination.page + 1;
-        }
-      }
+    getNextPageParam: (lastPage) => {
+      const isValidResponse =
+        lastPage &&
+        typeof lastPage === 'object' &&
+        'success' in lastPage &&
+        lastPage.success &&
+        'data' in lastPage;
 
-      return undefined;
+      if (!isValidResponse) return undefined;
+
+      const data = lastPage.data as {
+        pagination: {
+          page: number;
+          totalPages: number;
+        };
+      };
+
+      const { page, totalPages } = data.pagination;
+      return page < totalPages ? page + 1 : undefined;
     },
     ...options,
   });

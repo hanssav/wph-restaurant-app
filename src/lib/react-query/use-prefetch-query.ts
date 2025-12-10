@@ -13,17 +13,18 @@ import { QueryKey, useQueryClient } from '@tanstack/react-query';
  *   View User
  * </Link>
  */
+
 export function usePrefetch() {
   const queryClient = useQueryClient();
 
-  return async <TData>(
+  return <TData = unknown>(
     queryKey: QueryKey,
     queryFn: () => Promise<TData>,
     options?: {
       staleTime?: number;
     }
   ) => {
-    await queryClient.prefetchQuery({
+    return queryClient.prefetchQuery({
       queryKey,
       queryFn,
       staleTime: options?.staleTime,

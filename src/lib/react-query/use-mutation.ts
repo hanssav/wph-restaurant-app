@@ -16,9 +16,9 @@ import {
  */
 
 export function useMutation<
-  TData,
-  TError = Error,
+  TData = unknown,
   TVariables = void,
+  TError = Error,
   TContext = unknown
 >(
   mutationFn: (variables: TVariables) => Promise<TData>,
