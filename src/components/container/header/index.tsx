@@ -32,7 +32,7 @@ const Header = () => {
   if (!user) return;
 
   return (
-    <header className='container-x flex-between py-3 md:py-4'>
+    <header className='container-x flex-between py-3 md:py-4 w-screen'>
       <HeaderLogo isHome={isHome} onClick={() => router.push(PATH.HOME)} />
 
       {isLogin ? (

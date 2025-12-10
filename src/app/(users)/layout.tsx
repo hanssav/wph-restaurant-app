@@ -1,3 +1,4 @@
+import { Footer } from '@/components/container/footer';
 import Header from '@/components/container/header';
 import React from 'react';
 
@@ -6,9 +7,10 @@ type Props = {
 };
 const UserLayout = ({ children }: Props) => {
   return (
-    <div className='min-h-screen relative'>
+    <div className='min-h-screen flex flex-col relative bg-neutral-50'>
       <Header />
-      {children}
+      <div className='flex-1'>{children}</div>
+      <Footer />
     </div>
   );
 };

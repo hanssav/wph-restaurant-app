@@ -2,6 +2,7 @@ export const IMAGES = {
   HERO_COVER: '/images/hero-cover.png',
   AUTH_COVER: '/images/auth-cover.png',
   LOGO: '/images/logo.svg',
+  FOOTER_LOGO: '/images/logo-footer.png',
 };
 
 export const ICONS = {
