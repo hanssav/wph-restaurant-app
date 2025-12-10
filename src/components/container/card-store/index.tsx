@@ -40,11 +40,11 @@ export const StoreCard = ({
 
   return (
     <Card
-      className='w-full h-full cursor-pointer'
+      className='cursor-pointer'
       onMouseEnter={handleHover}
       onClick={handleClick}
     >
-      <CardContent className='p-3 md:p-4 flex-start gap-2 md:gap-4 w-full'>
+      <CardContent className='flex-start gap-2 md:gap-4 w-full'>
         <div className='relative overflow-hidden size-[90px] md:size-[120ox] rounded-[12px]'>
           <Image
             fill

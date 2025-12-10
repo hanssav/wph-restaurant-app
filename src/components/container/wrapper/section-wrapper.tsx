@@ -22,7 +22,10 @@ export const SectionContent = ({
   className,
   ...props
 }: ComponentProps<'div'>) => (
-  <div className={cn('py-2 space-y-4 md:space-y-5', className)} {...props} />
+  <div
+    className={cn('py-2 flex flex-col gap-4 md:gap-10 w-full', className)}
+    {...props}
+  />
 );
 
 export const SectionWrapper = ({
@@ -38,14 +41,14 @@ export const SectionWrapper = ({
     >
       {/* Need adjust */}
       {title && [
-        <SectionHeader>
+        <SectionHeader key={`${title}-header`}>
           <SectionTitle>{title}</SectionTitle>
         </SectionHeader>,
 
-        <SectionContent>{children}</SectionContent>,
+        <SectionContent key={`${title}-content`}>{children}</SectionContent>,
       ]}
 
-      {children}
+      {!title && children}
     </section>
   );
 };

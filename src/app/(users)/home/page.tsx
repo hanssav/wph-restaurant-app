@@ -58,6 +58,7 @@ const HomePage = () => {
       fetchNextPage();
     }
   };
+
   return (
     <>
       <Hero
