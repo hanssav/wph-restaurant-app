@@ -14,6 +14,7 @@ import { CATEGORY_MENU } from '@/constants';
 import { Restaurant } from '@/types';
 import React from 'react';
 import { useHomeData } from './use-home-data';
+import { usePrefetchInfinite } from '@/lib/react-query';
 
 const HomePage = () => {
   const {
@@ -23,6 +24,8 @@ const HomePage = () => {
     setSearchQuery,
     setCategory,
     category,
+    handlePrefetchCategory,
+    handlePrefetchRestaurant,
   } = useHomeData();
 
   const {
@@ -70,6 +73,7 @@ const HomePage = () => {
               data={item}
               category={category}
               setCategory={setCategory}
+              onPrefetch={handlePrefetchCategory}
             />
           ))}
         </ListCategory>
@@ -102,7 +106,11 @@ const HomePage = () => {
               <>
                 <StoreList className='lg:grid-cols-3'>
                   {restaurants.map((restaurant) => (
-                    <StoreCard key={restaurant.id} store={restaurant} />
+                    <StoreCard
+                      key={restaurant.id}
+                      store={restaurant}
+                      onPrefetch={handlePrefetchRestaurant}
+                    />
                   ))}
                 </StoreList>
                 {hasNextPage && (

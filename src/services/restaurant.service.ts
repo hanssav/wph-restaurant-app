@@ -1,5 +1,7 @@
 import { apiInstance } from '@/lib/api';
 import {
+  GetRestaurantDetailParams,
+  GetRestaurantDetailResponse,
   GetRestaurantParams,
   GetRestaurantsResponse,
   GetRestoBestSellerResponse,
@@ -8,6 +10,17 @@ import {
 } from '@/types';
 
 export const restaurantService = {
+  getId: async (
+    params?: GetRestaurantDetailParams
+  ): Promise<GetRestaurantDetailResponse> => {
+    const { data } = await apiInstance.get<GetRestaurantDetailResponse>(
+      `/resto/${params?.id}`,
+      { params }
+    );
+
+    return data;
+  },
+
   getAll: async (
     params: GetRestaurantParams
   ): Promise<GetRestaurantsResponse> => {

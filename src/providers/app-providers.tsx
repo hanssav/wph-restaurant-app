@@ -13,6 +13,7 @@ import { rehydrateAuth } from '@/store/slice/auth-slice';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
 import { getErrorMessage } from '@/lib/api';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient({
   // handle global error useQuery
@@ -57,6 +58,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
       <QueryClientProvider client={queryClient}>
         {children}
         <Toaster richColors position='top-right' />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ReduxProvider>
   );

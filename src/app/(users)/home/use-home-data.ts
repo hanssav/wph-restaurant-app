@@ -1,5 +1,9 @@
 import { CATEGORY_MENU, CategoryId } from '@/constants';
-import { useInfiniteQuery } from '@/lib/react-query';
+import {
+  useInfiniteQuery,
+  usePrefetch,
+  usePrefetchInfinite,
+} from '@/lib/react-query';
 import { restaurantService } from '@/services';
 import {
   GetRestaurantParams,
@@ -94,6 +98,64 @@ export const useHomeData = () => {
     }
   };
 
+  const prefetchInfinite = usePrefetchInfinite();
+
+  const handlePrefetchCategory = React.useCallback(
+    (categoryId: CategoryId) => {
+      switch (categoryId) {
+        case 'all-restaurant':
+          prefetchInfinite(
+            ['restaurants', 'all', filter],
+            ({ pageParam }) =>
+              restaurantService.getAll({ ...filter, page: pageParam }),
+            {
+              initialPageParam: 1,
+              getNextPageParam: (_, allPages) => allPages.length + 1,
+            }
+          );
+          break;
+
+        case 'best-seller':
+          prefetchInfinite(
+            ['restaurants', 'best-seller', filter],
+            ({ pageParam }) =>
+              restaurantService.getBestSellers({ ...filter, page: pageParam }),
+            {
+              initialPageParam: 1,
+              getNextPageParam: (_, allPages) => allPages.length + 1,
+            }
+          );
+          break;
+
+        case 'nearby':
+          prefetchInfinite(
+            ['restaurants', 'nearby', filter],
+            ({ pageParam }) =>
+              restaurantService.getNearby({ ...filter, page: pageParam }),
+            {
+              initialPageParam: 1,
+              getNextPageParam: (_, allPages) => allPages.length + 1,
+            }
+          );
+          break;
+      }
+    },
+    [filter, prefetchInfinite]
+  );
+
+  const prefetch = usePrefetch();
+
+  const handlePrefetchRestaurant = React.useCallback(
+    (restoId: number) => {
+      prefetch(
+        ['restaurant', restoId],
+        () => restaurantService.getId({ id: restoId }),
+        { staleTime: 1000 * 60 }
+      );
+    },
+    [prefetch]
+  );
+
   const activeQuery = getActiveQuery();
 
   return {
@@ -103,5 +165,7 @@ export const useHomeData = () => {
     activeQuery,
     category,
     setCategory,
+    handlePrefetchCategory,
+    handlePrefetchRestaurant,
   };
 };
