@@ -6,6 +6,12 @@ export const ContainerWrapper = ({
   ...props
 }: ComponentProps<'div'>) => {
   return (
-    <div className={cn('container-x container-y', className)} {...props} />
+    <div
+      className={cn(
+        'container-x container-y space-y-4 md:space-y-8',
+        className
+      )}
+      {...props}
+    />
   );
 };

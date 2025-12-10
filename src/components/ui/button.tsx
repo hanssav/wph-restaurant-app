@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default:
           'bg-primary-100 text-primary-foreground hover:bg-primary/90 rounded-[100px] text-neutral-25',
         outline:
-          'border bg-transparent rounded-[100px] border border-neutral-600 text-whilte',
+          'border bg-transparent rounded-[100px] border border-neutral-300 text-whilte',
         secondary: 'bg-white !text-neutral-950 rounded-[100px]',
         ghost: 'bg-transparent',
         link: 'text-primary underline-offset-4 hover:underline',

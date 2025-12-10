@@ -17,11 +17,18 @@ import { getErrorMessage } from '@/lib/api';
 const queryClient = new QueryClient({
   // handle global error useQuery
   queryCache: new QueryCache({
-    onError: (error) => toast.error(getErrorMessage(error)),
+    // META? custom show or hide toast
+    onError: (error, query) => {
+      if (query.meta?.suppressErrorToast) return;
+      toast.error(getErrorMessage(error));
+    },
   }),
   // handle global error useMutation
   mutationCache: new MutationCache({
-    onError: (error) => toast.error(getErrorMessage(error)),
+    onError: (error, _variables, _context, mutation) => {
+      if (mutation.meta?.suppressErrorToast) return;
+      toast.error(getErrorMessage(error));
+    },
   }),
   defaultOptions: {
     queries: {
@@ -49,7 +56,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
     <ReduxProvider>
       <QueryClientProvider client={queryClient}>
         {children}
-        <Toaster />
+        <Toaster richColors position='top-right' />
       </QueryClientProvider>
     </ReduxProvider>
   );
