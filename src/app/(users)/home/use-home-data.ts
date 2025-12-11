@@ -1,13 +1,8 @@
 import { CATEGORY_MENU, CategoryId } from '@/constants';
-import {
-  useInfiniteQuery,
-  usePrefetch,
-  usePrefetchInfinite,
-} from '@/lib/react-query';
+import { useRestaurant } from '@/hooks';
+import { useInfiniteQuery, usePrefetchInfinite } from '@/lib/react-query';
 import { restaurantService } from '@/services';
 import {
-  GetRestaurantParams,
-  GetRestaurantsResponse,
   GetRestoBestSellerResponse,
   RestoParams,
   GetRestoResponse,
@@ -41,12 +36,8 @@ export const useHomeData = () => {
     }
   };
 
-  const allRestaurantsQuery = useInfiniteQuery<
-    GetRestaurantsResponse,
-    GetRestaurantParams
-  >(['restaurants', 'all', filter], restaurantService.getAll, filter, {
-    enabled: category === 'all-restaurant',
-  });
+  const { restaurantQuery: allRestaurantsQuery, handlePrefetchRestaurant } =
+    useRestaurant({ filter });
 
   const bestSellersQuery = useInfiniteQuery<
     GetRestoBestSellerResponse,
@@ -143,26 +134,11 @@ export const useHomeData = () => {
     [filter, prefetchInfinite]
   );
 
-  const prefetch = usePrefetch();
-
-  const handlePrefetchRestaurant = React.useCallback(
-    (restoId: number) => {
-      prefetch(
-        ['restaurant', restoId],
-        () => restaurantService.getId({ id: restoId }),
-        { staleTime: 1000 * 60 }
-      );
-    },
-    [prefetch]
-  );
-
-  const activeQuery = getActiveQuery();
-
   return {
     searchQuery,
     setSearchQuery,
     handleSearchFocus,
-    activeQuery,
+    activeQuery: getActiveQuery(),
     category,
     setCategory,
     handlePrefetchCategory,

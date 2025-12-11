@@ -7,7 +7,7 @@ type Props = {
 };
 const UserLayout = ({ children }: Props) => {
   return (
-    <div className='min-h-screen flex flex-col relative bg-neutral-50'>
+    <div className='min-h-screen flex flex-col relative bg-white'>
       <Header />
       <div className='flex-1'>{children}</div>
       <Footer />

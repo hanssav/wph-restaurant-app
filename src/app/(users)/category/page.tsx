@@ -1,112 +1,165 @@
 'use client';
-import { StoreCard, StoreList } from '@/components/container/card-store';
+import {
+  InfiniteButton,
+  StoreCard,
+  StoreError,
+  StoreList,
+  StoreNotFound,
+} from '@/components/container/card-store';
 import Spin from '@/components/container/spin';
 import {
   ContainerWrapper,
   SectionContent,
   SectionWrapper,
 } from '@/components/container/wrapper';
+import {
+  Filter,
+  FilterCheckboxDistance,
+  FilterCheckboxRating,
+  FilterInputPrice,
+  FilterSection,
+  FilterTitle,
+} from '@/components/pages/category/filter';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useInfiniteQuery, usePrefetch } from '@/lib/react-query';
-import { restaurantService } from '@/services';
-import { GetRestaurantParams, GetRestaurantsResponse } from '@/types';
-import React from 'react';
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { FILTER_OPTIONS } from '@/constants';
+import { useCategoryFilter, useRestaurant } from '@/hooks';
+import { ListFilter } from 'lucide-react';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 const CategoryPage = () => {
-  const [filter, setFilter] = React.useState<GetRestaurantParams>({
-    page: 1,
-    limit: 10,
-  });
-
   const {
-    data,
-    isLoading,
+    filter,
+    handleDistanceChange,
+    handleRatingChange,
+    localPriceMax,
+    setLocalPriceMax,
+    setLocalPriceMin,
+    localPriceMin,
+  } = useCategoryFilter();
+  const {
     error,
-    fetchNextPage,
+    handleLoadMore,
+    handlePrefetchRestaurant,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery<GetRestaurantsResponse, GetRestaurantParams>(
-    ['restaurants', 'all', filter],
-    restaurantService.getAll,
-    filter
-  );
+    isLoading,
+    restaurants,
+  } = useRestaurant({ filter });
 
-  const restaurants = React.useMemo(() => {
-    if (!data?.pages) return [];
+  const { distances, prices, ratings } = FILTER_OPTIONS;
 
-    return data.pages.flatMap((page) => {
-      if (page.success && 'restaurants' in page.data) {
-        return page.data.restaurants;
-      }
-      return [];
-    });
-  }, [data]);
-
-  const handleLoadMore = () => {
-    if (hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  };
-
-  const prefetch = usePrefetch();
-
-  const handlePrefetchRestaurant = React.useCallback(
-    (restoId: number) => {
-      prefetch(
-        ['restaurant', restoId],
-        () => restaurantService.getId({ id: restoId }),
-        { staleTime: 1000 * 60 }
-      );
-    },
-    [prefetch]
+  const FilterContent = () => (
+    <Filter>
+      <FilterSection>
+        <FilterTitle className='font-bold'>Filter</FilterTitle>
+        <FilterTitle>Distance</FilterTitle>
+        {distances.map((distance) => (
+          <FilterCheckboxDistance
+            input={distance}
+            key={distance.id}
+            checked={filter.range === distance.value}
+            onChange={(checked) =>
+              handleDistanceChange(distance.value, checked)
+            }
+          />
+        ))}
+      </FilterSection>
+      <FilterSection title='Price'>
+        {prices.map((price) => (
+          <FilterInputPrice
+            input={price}
+            key={price.id}
+            value={price.id === 'min' ? localPriceMin : localPriceMax}
+            onChange={(value) => {
+              if (price.id === 'min') {
+                setLocalPriceMin(value);
+              } else {
+                setLocalPriceMax(value);
+              }
+            }}
+          />
+        ))}
+      </FilterSection>
+      <FilterSection title='Rating'>
+        {ratings.map((rating) => (
+          <FilterCheckboxRating
+            input={rating}
+            key={rating.id}
+            checked={filter.rating === rating.value}
+            onChange={(checked) => handleRatingChange(rating.value, checked)}
+          />
+        ))}
+      </FilterSection>
+    </Filter>
   );
 
   return (
     <ContainerWrapper>
       <SectionWrapper title='All Restaurant'>
-        {/* as Sidebar */}
-
         <SectionContent className='w-full md:flex-start items-start!'>
-          <Card className='hidden md:block w-full max-w-[266px]'>sidebar</Card>
-          {isLoading && <Spin />}
-          {error && (
-            <div className='flex-center py-12'>
-              <p className='text-lg text-primary-100'>
-                Failed to load restaurants. Please try again.
-              </p>
-            </div>
-          )}
-          {!isLoading && !error && restaurants.length === 0 && (
-            <div className='flex-center py-12 w-full'>
-              <p className='text-lg text-neutral-500'>No restaurants found.</p>
-            </div>
-          )}
-          {!isLoading && !error && restaurants.length > 0 && (
-            <>
-              <StoreList className='w-full'>
-                {restaurants.map((restaurant) => (
-                  <StoreCard
-                    key={restaurant.id}
-                    store={restaurant}
-                    onPrefetch={handlePrefetchRestaurant}
-                  />
-                ))}
-              </StoreList>
-              {hasNextPage && (
-                <div className='w-full flex-center mt-6'>
-                  <Button
-                    variant='outline'
-                    className='w-full md:w-fit'
-                    onClick={handleLoadMore}
-                    disabled={isFetchingNextPage}
-                  >
-                    {isFetchingNextPage ? 'Loading...' : 'Show More'}
-                  </Button>
-                </div>
-              )}
-            </>
-          )}
+          <Card className='hidden md:block w-full max-w-[266px]'>
+            <FilterContent />
+          </Card>
+
+          <div className='md:hidden w-full'>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant='secondary'
+                  className='shadow-card w-full rounded-[12px] flex-between! h-14'
+                >
+                  <p className='font-bold desc'>Filter</p>
+                  <ListFilter className='size-5' />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side='left' className='p-4'>
+                <VisuallyHidden>
+                  <SheetTitle>filter store</SheetTitle>
+                </VisuallyHidden>
+                <FilterContent />
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          <div className='w-full'>
+            {isLoading && <Spin />}
+            {error && <StoreError />}
+            {!isLoading && !error && restaurants.length === 0 && (
+              <StoreNotFound />
+            )}
+            {!isLoading &&
+              !error &&
+              restaurants.length > 0 && [
+                <StoreList
+                  key='store-list'
+                  className='w-full md:grid-cols-1 lg:grid-cols-2'
+                >
+                  {restaurants.map((restaurant) => (
+                    <StoreCard
+                      key={restaurant.id}
+                      store={restaurant}
+                      onPrefetch={handlePrefetchRestaurant}
+                    />
+                  ))}
+                </StoreList>,
+                <InfiniteButton
+                  key='infinite-btn'
+                  className='w-full md:w-fit'
+                  handleLoadMore={handleLoadMore}
+                  isFetchingNextPage={isFetchingNextPage}
+                  hasNextPage={hasNextPage}
+                >
+                  {isFetchingNextPage ? 'Loading...' : 'Show More'}
+                </InfiniteButton>,
+              ]}
+          </div>
         </SectionContent>
       </SectionWrapper>
     </ContainerWrapper>

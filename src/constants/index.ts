@@ -4,3 +4,4 @@ export * from './path.constants';
 export * from './hero.constants';
 export * from './category-constants';
 export * from './footer.constants';
+export * from './filter.constants';

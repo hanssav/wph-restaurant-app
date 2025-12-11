@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PATH } from '@/constants';
 import { cn } from '@/lib/utils';
@@ -6,6 +7,20 @@ import { Star } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { ComponentProps } from 'react';
+
+export const StoreError = () => (
+  <div className='flex-center py-12'>
+    <p className='text-lg text-primary-100'>
+      Failed to load restaurants. Please try again.
+    </p>
+  </div>
+);
+
+export const StoreNotFound = () => (
+  <div className='flex-center py-12 w-full'>
+    <p className='text-lg text-neutral-500'>No restaurants found.</p>
+  </div>
+);
 
 export const StoreList = ({ className, ...props }: ComponentProps<'div'>) => {
   return (
@@ -16,6 +31,37 @@ export const StoreList = ({ className, ...props }: ComponentProps<'div'>) => {
       )}
       {...props}
     />
+  );
+};
+
+export const InfiniteButton = ({
+  hasNextPage,
+  handleLoadMore,
+  isFetchingNextPage,
+  label,
+  children,
+  ...props
+}: {
+  hasNextPage: boolean;
+  handleLoadMore: () => void;
+  isFetchingNextPage: boolean;
+  label?: string;
+} & React.ComponentProps<'button'>) => {
+  if (!hasNextPage) return;
+
+  return (
+    <div className='w-full flex-center mt-6'>
+      <Button
+        variant='outline'
+        className='w-full md:w-fit'
+        onClick={handleLoadMore}
+        disabled={isFetchingNextPage}
+        {...props}
+      >
+        {isFetchingNextPage && label ? 'Loading...' : label}
+        {!label && children}
+      </Button>
+    </div>
   );
 };
 

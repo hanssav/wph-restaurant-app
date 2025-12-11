@@ -1,5 +1,11 @@
 'use client';
-import { StoreCard, StoreList } from '@/components/container/card-store';
+import {
+  InfiniteButton,
+  StoreCard,
+  StoreError,
+  StoreList,
+  StoreNotFound,
+} from '@/components/container/card-store';
 import Spin from '@/components/container/spin';
 import {
   ContainerWrapper,
@@ -14,7 +20,6 @@ import { CATEGORY_MENU } from '@/constants';
 import { Restaurant } from '@/types';
 import React from 'react';
 import { useHomeData } from './use-home-data';
-import { usePrefetchInfinite } from '@/lib/react-query';
 
 const HomePage = () => {
   const {
@@ -60,7 +65,7 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Hero
         searchValue={searchQuery}
         onSearchChange={setSearchQuery}
@@ -89,23 +94,14 @@ const HomePage = () => {
 
           <SectionContent>
             {isLoading && <Spin />}
-            {error && (
-              <div className='flex-center py-12'>
-                <p className='text-lg text-primary-100'>
-                  Failed to load restaurants. Please try again.
-                </p>
-              </div>
-            )}
+            {error && <StoreError />}
             {!isLoading && !error && restaurants.length === 0 && (
-              <div className='flex-center py-12'>
-                <p className='text-lg text-neutral-500'>
-                  No restaurants found.
-                </p>
-              </div>
+              <StoreNotFound />
             )}
-            {!isLoading && !error && restaurants.length > 0 && (
-              <>
-                <StoreList className='lg:grid-cols-3'>
+            {!isLoading &&
+              !error &&
+              restaurants.length > 0 && [
+                <StoreList key='store-list' className='lg:grid-cols-3'>
                   {restaurants.map((restaurant) => (
                     <StoreCard
                       key={restaurant.id}
@@ -113,25 +109,21 @@ const HomePage = () => {
                       onPrefetch={handlePrefetchRestaurant}
                     />
                   ))}
-                </StoreList>
-                {hasNextPage && (
-                  <div className='w-full flex-center mt-6'>
-                    <Button
-                      variant='outline'
-                      className='w-full md:w-fit'
-                      onClick={handleLoadMore}
-                      disabled={isFetchingNextPage}
-                    >
-                      {isFetchingNextPage ? 'Loading...' : 'Show More'}
-                    </Button>
-                  </div>
-                )}
-              </>
-            )}
+                </StoreList>,
+                <InfiniteButton
+                  key='infinite-btn'
+                  className='w-full md:w-fit'
+                  handleLoadMore={handleLoadMore}
+                  isFetchingNextPage={isFetchingNextPage}
+                  hasNextPage={hasNextPage}
+                >
+                  {isFetchingNextPage ? 'Loading...' : 'Show More'}
+                </InfiniteButton>,
+              ]}
           </SectionContent>
         </SectionWrapper>
       </ContainerWrapper>
-    </>
+    </React.Fragment>
   );
 };
 
