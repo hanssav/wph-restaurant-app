@@ -55,13 +55,14 @@ const CategoryPage = () => {
 
   const { distances, prices, ratings } = FILTER_OPTIONS;
 
-  const FilterContent = () => (
+  const FilterContent = ({ idPrefix }: { idPrefix?: string }) => (
     <Filter>
       <FilterSection>
         <FilterTitle className='font-bold'>Filter</FilterTitle>
         <FilterTitle>Distance</FilterTitle>
         {distances.map((distance) => (
           <FilterCheckboxDistance
+            id={`distance-${distance.id}-${idPrefix}`}
             input={distance}
             key={distance.id}
             checked={filter.range === distance.value}
@@ -74,6 +75,7 @@ const CategoryPage = () => {
       <FilterSection title='Price'>
         {prices.map((price) => (
           <FilterInputPrice
+            id={`price-${price.id}-${idPrefix}`}
             input={price}
             key={price.id}
             value={price.id === 'min' ? localPriceMin : localPriceMax}
@@ -90,6 +92,7 @@ const CategoryPage = () => {
       <FilterSection title='Rating'>
         {ratings.map((rating) => (
           <FilterCheckboxRating
+            id={`rating-${rating.id}-${idPrefix}`}
             input={rating}
             key={rating.id}
             checked={filter.rating === rating.value}
@@ -105,7 +108,7 @@ const CategoryPage = () => {
       <SectionWrapper title='All Restaurant'>
         <SectionContent className='w-full md:flex-start items-start!'>
           <Card className='hidden md:block w-full max-w-[266px]'>
-            <FilterContent />
+            <FilterContent idPrefix='desktop-' />
           </Card>
 
           <div className='md:hidden w-full'>
@@ -123,7 +126,7 @@ const CategoryPage = () => {
                 <VisuallyHidden>
                   <SheetTitle>filter store</SheetTitle>
                 </VisuallyHidden>
-                <FilterContent />
+                <FilterContent idPrefix='mobile-' />
               </SheetContent>
             </Sheet>
           </div>

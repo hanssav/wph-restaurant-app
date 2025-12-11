@@ -42,7 +42,9 @@ export const FilterCheckboxDistance = ({
   input,
   checked,
   onChange,
+  id,
 }: {
+  id: string;
   input: FilterDistanceType;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -50,7 +52,7 @@ export const FilterCheckboxDistance = ({
   return (
     <div className='flex-start gap-2 py-1'>
       <Checkbox
-        id={`distance-${input.id}`}
+        id={id}
         name={`distance-${input.id}`}
         checked={checked}
         onCheckedChange={onChange}
@@ -70,7 +72,9 @@ export const FilterInputPrice = ({
   input,
   value,
   onChange,
+  id,
 }: {
+  id: string;
   input: FilterPricesType;
   value?: string;
   onChange?: (value: string) => void;
@@ -86,7 +90,7 @@ export const FilterInputPrice = ({
   return (
     <div className='relative'>
       <Input
-        id={`price-${input.id}`}
+        id={id}
         name={`price-${input.id}`}
         type='text'
         value={value || ''}
@@ -106,7 +110,9 @@ export const FilterCheckboxRating = ({
   input,
   checked,
   onChange,
+  id,
 }: {
+  id: string;
   input: FilterRatingsType;
   checked?: boolean;
   onChange?: (checked: boolean) => void;
@@ -114,7 +120,7 @@ export const FilterCheckboxRating = ({
   return (
     <div className='flex-start gap-2 py-1'>
       <Checkbox
-        id={`rating-${input.id}`}
+        id={id}
         name={`rating-${input.id}`}
         checked={checked}
         onCheckedChange={onChange}
