@@ -30,7 +30,7 @@ export const Filter = ({ className, ...props }: ComponentProps<'div'>) => {
   return (
     <div
       className={cn(
-        'space-y-6 [&>*]:border-b [&>*]:border-neutral-300 [&>*:last-child]:border-b-0',
+        'space-y-6 *:border-b *:border-neutral-300 [&>*:last-child]:border-b-0',
         className
       )}
       {...props}

@@ -10,12 +10,21 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-primary-100 text-primary-foreground hover:bg-primary/90 rounded-[100px] text-neutral-25',
+          'bg-primary-100 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-500/20 rounded-[100px] transition-all duration-200',
+
         outline:
-          'border bg-transparent rounded-[100px] border border-neutral-300 text-whilte',
-        secondary: 'bg-white !text-neutral-950 rounded-[100px]',
-        ghost: 'bg-transparent',
-        link: 'text-primary underline-offset-4 hover:underline',
+          'border border-neutral-300 bg-transparent hover:bg-red-50 hover:border-red-600 hover:text-red-700 text-neutral-700 rounded-[100px] transition-all duration-200',
+
+        secondary:
+          'bg-white text-neutral-950 border border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300 hover:shadow-md rounded-[100px] transition-all duration-200',
+
+        ghost:
+          'bg-transparent text-neutral-700 hover:bg-red-50 hover:text-red-700 rounded-[100px] transition-all duration-200',
+
+        link: 'text-primary-100 hover:text-red-700 underline-offset-4 hover:underline font-medium transition-colors duration-200',
+
+        destructive:
+          'bg-red-600 text-white hover:bg-red-700 hover:shadow-lg hover:shadow-red-500/30 rounded-[100px] transition-all duration-200',
       },
       size: {
         default: 'h-12 px-4 py-2 has-[>svg]:px-3 text-md font-bold ',

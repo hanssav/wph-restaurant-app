@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { cn, formatMoney } from '@/lib/utils';
 import { RestaurantMenu } from '@/types';
 import Image from 'next/image';
 import React from 'react';
@@ -25,13 +25,6 @@ export const Menus = ({ className, ...props }: React.ComponentProps<'div'>) => (
 );
 
 export const MenusItems = ({ menu }: { menu: RestaurantMenu }) => {
-  const formattedPrice = new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(menu.price);
-
   return (
     <Card className='p-0'>
       <CardContent className='px-0 rounded-2xl'>
@@ -50,7 +43,7 @@ export const MenusItems = ({ menu }: { menu: RestaurantMenu }) => {
           <div className=''>
             <p className='desc font-medium'>{menu.foodName}</p>
             <h4 className='text-md-extrabold md:text-lg-extrabold'>
-              {formattedPrice}
+              {formatMoney(menu.price)}
             </h4>
           </div>
           <Button className='w-full md:w-fit h-9 md:h-10'>Add</Button>

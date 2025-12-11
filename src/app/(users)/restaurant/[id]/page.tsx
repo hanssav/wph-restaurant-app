@@ -21,7 +21,7 @@ import { Button } from '@/components/ui/button';
 import { FILTER_MENU } from '@/constants';
 import { useRestaurantDetail } from '@/hooks/use-restaurant-detail';
 import { cn } from '@/lib/utils';
-import { Section, Share2 } from 'lucide-react';
+import { Share2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 const RestaurantDetailPage = () => {
@@ -29,13 +29,19 @@ const RestaurantDetailPage = () => {
 
   const id = Number(params.id);
 
-  const { restaurant } = useRestaurantDetail({ id });
-
-  console.log(restaurant, 'restaurant');
+  const {
+    restaurant,
+    handleFetchNextMenus,
+    hasNextMenus,
+    isLoading,
+    handleFetchNextReviews,
+    hasNextReviews,
+    handleFilterMenuType,
+    menuType,
+  } = useRestaurantDetail({ id });
 
   if (!restaurant) return <div>Data not found</div>;
 
-  const hasNextPage = true;
   return (
     <ContainerWrapper
       className={cn(
@@ -59,12 +65,18 @@ const RestaurantDetailPage = () => {
       </SectionWrapper>
 
       <SectionWrapper>
-        <SectionHeader className='gap-2 md:gap-3'>
+        <SectionHeader className='gap-4 md:gap-8'>
           <SectionTitle>Menu</SectionTitle>
           <FilterMenu>
             {FILTER_MENU.map((menu) => (
-              <Badge key={menu.id} variant={'outline'}>
-                {menu.label}
+              <Badge
+                key={menu.id}
+                variant={menuType === menu.id ? 'default' : 'outline'}
+                onClick={() => handleFilterMenuType(menu.id)}
+              >
+                <p className='text-md font-semibold md:font-bold'>
+                  {menu.label}
+                </p>
               </Badge>
             ))}
           </FilterMenu>
@@ -75,7 +87,12 @@ const RestaurantDetailPage = () => {
               <MenusItems key={menu.id} menu={menu} />
             ))}
           </Menus>
-          <InfiniteButton hasNextPage={hasNextPage}>Show More</InfiniteButton>
+          <InfiniteButton
+            hasNextPage={hasNextMenus}
+            isFetchingNextPage={isLoading}
+            handleLoadMore={handleFetchNextMenus}
+            label='Show More'
+          />
         </SectionContent>
       </SectionWrapper>
 
@@ -93,7 +110,12 @@ const RestaurantDetailPage = () => {
               <RestaurantReviewItem key={review.id} review={review} />
             ))}
           </RestaurantReviews>
-          <InfiniteButton hasNextPage={hasNextPage}>Show More</InfiniteButton>
+          <InfiniteButton
+            hasNextPage={hasNextReviews}
+            isFetchingNextPage={isLoading}
+            handleLoadMore={handleFetchNextReviews}
+            label='Show More'
+          />
         </SectionContent>
       </SectionWrapper>
     </ContainerWrapper>

@@ -52,3 +52,12 @@ export const formatDate = (
 ) => {
   return dayjs(date).format(format);
 };
+
+export const formatMoney = (value: number) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};

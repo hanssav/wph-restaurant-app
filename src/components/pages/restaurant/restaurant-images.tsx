@@ -42,15 +42,17 @@ export const RestaurantImages = ({
         >
           <CarouselContent>
             {images.map((image, idx) => (
-              <CarouselItem key={idx} className='relative w-full h-[260px]'>
-                <Image
-                  fill
-                  src={image}
-                  alt={`carousel-${idx}`}
-                  className='object-cover'
-                  loading='eager'
-                  sizes='(max-width: 768px) 100vw'
-                />
+              <CarouselItem key={idx} className='relative w-full'>
+                <div className='relative w-full aspect-361/260 overflow-hidden rounded-xl'>
+                  <Image
+                    fill
+                    src={image}
+                    alt={`carousel-${idx}`}
+                    className='object-cover'
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    sizes='(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw'
+                  />
+                </div>
               </CarouselItem>
             ))}
           </CarouselContent>

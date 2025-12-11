@@ -31,7 +31,6 @@ export const RestaurantReviewItem = ({
 }: {
   review: RestaurantReview;
 }) => {
-  console.log(review, 'review');
   return (
     <Card className='py-4'>
       <CardContent className='px-4 space-y-4'>

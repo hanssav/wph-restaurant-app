@@ -39,4 +39,4 @@ export const FILTER_MENU = [
   },
 ] as const;
 
-export type FilterMenuType = (typeof FILTER_MENU)[number];
+export type FilterMenuId = (typeof FILTER_MENU)[number]['id'];
