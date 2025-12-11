@@ -1,5 +1,9 @@
+import { PATH } from '@/constants';
+import { usePrefetch } from '@/lib/react-query';
 import { cn } from '@/lib/utils';
+import { cartService } from '@/services';
 import { Handbag } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 type Props = { count?: number; isHome?: boolean; isScrolled: boolean };
 
@@ -8,8 +12,18 @@ export const HeaderCart = ({
   isHome = false,
   isScrolled,
 }: Props) => {
+  const prefetch = usePrefetch();
+  const router = useRouter();
+  const handleMouseEnter = () => {
+    prefetch(['cart'], () => cartService.getAll(), { staleTime: 1000 * 60 });
+  };
+
   return (
-    <div className='relative'>
+    <div
+      className='relative cursor-pointer'
+      onClick={() => router.push(PATH.CART)}
+      onMouseEnter={handleMouseEnter}
+    >
       <Handbag
         className={cn(
           'size-7 md:size-8 aspect-square ',
