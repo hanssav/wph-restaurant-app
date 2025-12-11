@@ -35,7 +35,7 @@ export const Hero = ({
       </div>
 
       <div className='w-full z-20 h-[calc(827px-64px)] md:h-[calc(827px-80px)] relative top-0 flex-col-center text-white gap-6 md:gap-10'>
-        <div className='space-y-1 md:space-y-2 flex-col-center'>
+        <div className='space-y-1 md:space-y-2 flex-col-center text-center'>
           <h1 className='text-display-lg-extrabold md:text-display-2xl-extrabold'>
             {title}
           </h1>
