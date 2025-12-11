@@ -85,7 +85,7 @@ const HomePage = () => {
         </ListCategory>
 
         <SectionWrapper>
-          <SectionHeader className='justify-between'>
+          <SectionHeader className='flex-between!'>
             <SectionTitle>{categoryTitle}</SectionTitle>
             <Button variant='ghost' className='text-primary-100'>
               See All

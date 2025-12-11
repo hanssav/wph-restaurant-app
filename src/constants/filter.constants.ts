@@ -23,3 +23,20 @@ export type FilterDistanceType = (typeof FILTER_OPTIONS.distances)[number];
 export type FilterPricesType = (typeof FILTER_OPTIONS.prices)[number];
 
 export type FilterRatingsType = (typeof FILTER_OPTIONS.ratings)[number];
+
+export const FILTER_MENU = [
+  {
+    id: 'all',
+    label: 'All Menu',
+  },
+  {
+    id: 'food',
+    label: 'Food',
+  },
+  {
+    id: 'drink',
+    label: 'Drink',
+  },
+] as const;
+
+export type FilterMenuType = (typeof FILTER_MENU)[number];

@@ -1,0 +1,61 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { RestaurantMenu } from '@/types';
+import Image from 'next/image';
+import React from 'react';
+
+export const FilterMenu = ({
+  className,
+  ...props
+}: React.ComponentProps<'div'>) => {
+  return (
+    <div className={cn('flex-start gap-2 md:gap-3', className)} {...props} />
+  );
+};
+
+export const Menus = ({ className, ...props }: React.ComponentProps<'div'>) => (
+  <div
+    className={cn(
+      'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-x-5 md:gap-y-6',
+      className
+    )}
+    {...props}
+  />
+);
+
+export const MenusItems = ({ menu }: { menu: RestaurantMenu }) => {
+  const formattedPrice = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(menu.price);
+
+  return (
+    <Card className='p-0'>
+      <CardContent className='px-0 rounded-2xl'>
+        <div className='relative overflow-hidden aspect-square w-full rounded-t-2xl'>
+          <Image
+            src={menu.image}
+            alt={menu.foodName}
+            fill
+            sizes='(max-width: 640px) 50vw, (max-width: 1024px) 33vw, (max-width: 1280px) 25vw, 20vw'
+            className='object-cover object-top'
+            loading='eager'
+            priority
+          />
+        </div>
+        <div className='p-3 md:p-4 flex-col-start gap-4 md:flex-between'>
+          <div className=''>
+            <p className='desc font-medium'>{menu.foodName}</p>
+            <h4 className='text-md-extrabold md:text-lg-extrabold'>
+              {formattedPrice}
+            </h4>
+          </div>
+          <Button className='w-full md:w-fit h-9 md:h-10'>Add</Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};

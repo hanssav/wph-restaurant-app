@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { PATH } from '@/constants';
 import { cn } from '@/lib/utils';
-import { Restaurant } from '@/types';
+import { Restaurant, RestaurantDetail } from '@/types';
 import { Star } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -42,9 +42,9 @@ export const InfiniteButton = ({
   children,
   ...props
 }: {
-  hasNextPage: boolean;
-  handleLoadMore: () => void;
-  isFetchingNextPage: boolean;
+  hasNextPage?: boolean;
+  handleLoadMore?: () => void;
+  isFetchingNextPage?: boolean;
   label?: string;
 } & React.ComponentProps<'button'>) => {
   if (!hasNextPage) return;
@@ -53,7 +53,7 @@ export const InfiniteButton = ({
     <div className='w-full flex-center mt-6'>
       <Button
         variant='outline'
-        className='w-full md:w-fit'
+        className=''
         onClick={handleLoadMore}
         disabled={isFetchingNextPage}
         {...props}
@@ -66,12 +66,14 @@ export const InfiniteButton = ({
 };
 
 export const StoreCard = ({
+  prefix,
   store,
   onPrefetch,
+  ...props
 }: {
-  store: Restaurant;
+  store: Restaurant | RestaurantDetail;
   onPrefetch?: (id: number) => void;
-}) => {
+} & React.ComponentProps<'div'>) => {
   // mock distance, no in api
   const distance = (Math.random() * 9 + 1).toFixed(1);
   const router = useRouter();
@@ -84,13 +86,17 @@ export const StoreCard = ({
     router.push(`${PATH.RESTAURANT}/${store.id}`);
   }, [router, store.id]);
 
+  const isDetail = prefix === 'detail';
   return (
     <Card
       className='cursor-pointer'
       onMouseEnter={handleHover}
       onClick={handleClick}
+      {...props}
     >
-      <CardContent className='flex-start gap-2 md:gap-4 w-full'>
+      <CardContent
+        className={cn('flex-start gap-2 md:gap-4 w-full', isDetail && 'px-0')}
+      >
         <div className='relative overflow-hidden size-[90px] md:size-[120ox] rounded-[12px]'>
           <Image
             fill

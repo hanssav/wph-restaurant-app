@@ -15,7 +15,7 @@ export const SectionHeader = ({
   className,
   ...props
 }: ComponentProps<'div'>) => (
-  <div className={cn('flex-start gap-4 md:gap-5', className)} {...props} />
+  <div className={cn('flex-col-start gap-4 md:gap-5', className)} {...props} />
 );
 
 export const SectionContent = ({
