@@ -1,5 +1,4 @@
 'use client';
-import Spin from '@/components/container/spin';
 import {
   ContainerWrapper,
   SectionWrapper,
@@ -11,22 +10,18 @@ import {
   CartItemSummary,
   Carts,
 } from '@/components/pages/cart';
-import { useCart } from '@/hooks';
+import { PATH } from '@/constants';
+import { useAppSelector } from '@/store/hooks';
+import { RootState } from '@/store/store';
+import { useRouter } from 'next/navigation';
 
 const CartPage = () => {
-  const { data, isLoading } = useCart();
+  const { cart: data } = useAppSelector((state: RootState) => state.cart);
+  const router = useRouter();
 
-  console.log(data, 'data');
-
-  if (isLoading) {
-    return (
-      <ContainerWrapper>
-        <SectionWrapper title='My Cart'>
-          <Spin />
-        </SectionWrapper>
-      </ContainerWrapper>
-    );
-  }
+  const handleClickCheckout = () => {
+    router.push(PATH.CHECKOUT);
+  };
 
   if (!data || data.cart.length === 0) {
     return (
@@ -49,10 +44,18 @@ const CartPage = () => {
               <CartItem key={restaurant.id}>
                 <CartItemRestaurant restaurant={restaurant} />
                 {items.map((item) => (
-                  <CartItemMenu key={item.id} item={item} />
+                  <CartItemMenu
+                    key={item.id}
+                    item={item}
+                    restaurant={restaurant}
+                    restaurantId={restaurant.id}
+                  />
                 ))}
                 <div className='border-t border-dashed border-neutral-300' />
-                <CartItemSummary subTotal={subtotal} />
+                <CartItemSummary
+                  subTotal={subtotal}
+                  handleClick={handleClickCheckout}
+                />
               </CartItem>
             );
           })}

@@ -7,7 +7,7 @@ import {
   updateCartItemQuantity,
 } from '@/store/slice/cart-slice';
 import { RootState } from '@/store/store';
-import { CartItem, CartRestaurant, RestaurantMenu } from '@/types';
+import { CartItem, CartMenu, CartRestaurant, RestaurantMenu } from '@/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState, useMemo, useCallback } from 'react';
 
@@ -17,7 +17,8 @@ type UseCartActionsProps = {
     id: number;
     logo: string;
     name: string;
-    menus: RestaurantMenu[];
+    menus?: RestaurantMenu[];
+    menuItem?: CartMenu;
   };
 };
 
@@ -84,9 +85,13 @@ export const useCartActions = ({
 
   const handleAddCart = useCallback(
     (menuId: number) => {
+      console.log(menuId, restaurantId);
       if (!restaurant || !menuId) return;
 
-      const menu = restaurant.menus.find((m) => m.id === menuId);
+      const menu = restaurant.menus
+        ? restaurant.menus.find((m) => m.id === menuId)
+        : restaurant.menuItem;
+
       if (!menu) return;
 
       const _restaurant: CartRestaurant = {

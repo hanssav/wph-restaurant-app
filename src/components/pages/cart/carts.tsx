@@ -1,11 +1,12 @@
 import { ItemCounter } from '@/components/container/item-counter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { useCartActions } from '@/hooks';
 import { cn, formatMoney } from '@/lib/utils';
 import { CartItem as CartItemType, CartRestaurant } from '@/types';
 import { ChevronRight, Minus, Plus } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 export const Carts = ({ className, ...props }: React.ComponentProps<'div'>) => (
   <div className={cn('space-y-5', className)} {...props} />
@@ -47,33 +48,67 @@ export const CartItemRestaurant = ({
 export const CartItemMenu = ({
   className,
   item,
+  restaurantId,
+  restaurant,
   ...props
-}: { item: CartItemType } & React.ComponentProps<'div'>) => (
-  <div className={cn('flex-between', className)} {...props}>
-    <div className='flex-start gap-4'>
-      <div className='relative overflow-hidden aspect-square size-16 md:size-20'>
-        <Image
-          fill
-          loading='lazy'
-          sizes='(max-width: 768px) 64px, 80px'
-          src={item.menu.image}
-          alt={item.menu.foodName}
-          className='object-cover'
-        />
-      </div>
+}: {
+  item: CartItemType;
+  restaurant: CartRestaurant;
+  restaurantId: number;
+} & React.ComponentProps<'div'>) => {
+  const { handleAddCart, handleRemoveCart, getMenuQuantity, isMenuLoading } =
+    useCartActions({
+      restaurantId,
+      restaurant: restaurant
+        ? {
+            id: restaurant.id,
+            logo: restaurant.logo,
+            name: restaurant.name,
+            menuItem: item.menu,
+          }
+        : undefined,
+    });
 
-      <div className=''>
-        <p className='desc'>{item.menu.foodName}</p>
-        <h4 className='text-md-extrabold md:text-lg-extrabold'>
-          {formatMoney(item.menu.price)}
-        </h4>
+  const qty = getMenuQuantity(item.menu.id) ?? 0;
+
+  return (
+    <div className={cn('flex-between', className)} {...props}>
+      <div className='flex-start gap-4'>
+        <div className='relative overflow-hidden aspect-square size-16 md:size-20'>
+          <Image
+            fill
+            loading='lazy'
+            sizes='(max-width: 768px) 64px, 80px'
+            src={item.menu.image}
+            alt={item.menu.foodName}
+            className='object-cover'
+          />
+        </div>
+
+        <div className=''>
+          <p className='desc'>{item.menu.foodName}</p>
+          <h4 className='text-md-extrabold md:text-lg-extrabold'>
+            {formatMoney(item.menu.price)}
+          </h4>
+        </div>
       </div>
+      <ItemCounter
+        count={qty}
+        isLoading={isMenuLoading(item.menu.id)}
+        onAdd={() => handleAddCart(item.menu.id)}
+        onRemove={() => handleRemoveCart(item.menu.id)}
+      />
     </div>
-    <ItemCounter count={1} />
-  </div>
-);
+  );
+};
 
-export const CartItemSummary = ({ subTotal }: { subTotal: number }) => (
+export const CartItemSummary = ({
+  subTotal,
+  handleClick,
+}: {
+  subTotal: number;
+  handleClick: () => void;
+}) => (
   <div className='flex-col-start gap-3 md:flex-between'>
     <div className=''>
       <p className='desc font-medium'>Total</p>
@@ -81,6 +116,8 @@ export const CartItemSummary = ({ subTotal }: { subTotal: number }) => (
         {formatMoney(subTotal)}
       </h4>
     </div>
-    <Button className='w-full md:max-w-60 h-12'>Checkout</Button>
+    <Button onClick={handleClick} className='w-full md:max-w-60 h-12'>
+      Checkout
+    </Button>
   </div>
 );
