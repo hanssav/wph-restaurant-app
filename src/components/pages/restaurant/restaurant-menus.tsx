@@ -1,7 +1,8 @@
+import { ItemCounter } from '@/components/container/item-counter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn, formatMoney } from '@/lib/utils';
-import { RestaurantMenu } from '@/types';
+import { CartItem, RestaurantMenu } from '@/types';
 import Image from 'next/image';
 import React from 'react';
 
@@ -24,7 +25,22 @@ export const Menus = ({ className, ...props }: React.ComponentProps<'div'>) => (
   />
 );
 
-export const MenusItems = ({ menu }: { menu: RestaurantMenu }) => {
+export const MenusItems = ({
+  menu,
+  onAdd,
+  menusInCart,
+  onRemove,
+  isLoading,
+}: {
+  menu: RestaurantMenu;
+  onAdd: () => void;
+  onRemove: () => void;
+  menusInCart: CartItem[];
+  isLoading: boolean;
+}) => {
+  const hasCart = menusInCart.filter((mn) => mn.menu.id === menu.id);
+  const { quantity } = hasCart[0] ?? [];
+
   return (
     <Card className='p-0'>
       <CardContent className='px-0 rounded-2xl'>
@@ -46,7 +62,25 @@ export const MenusItems = ({ menu }: { menu: RestaurantMenu }) => {
               {formatMoney(menu.price)}
             </h4>
           </div>
-          <Button className='w-full md:w-fit h-9 md:h-10'>Add</Button>
+          {hasCart.length > 0 ? (
+            <ItemCounter
+              count={quantity ?? 0}
+              onAdd={onAdd}
+              onRemove={onRemove}
+              isLoading={isLoading}
+            />
+          ) : (
+            <Button
+              disabled={isLoading}
+              onClick={onAdd}
+              className={cn(
+                'w-full md:w-fit h-9 md:h-10',
+                isLoading && 'disabled:opacity-100'
+              )}
+            >
+              Add
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

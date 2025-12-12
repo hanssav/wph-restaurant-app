@@ -44,6 +44,7 @@ const CartPage = () => {
         <Carts>
           {data.cart.map((cart) => {
             const { items, restaurant, subtotal } = cart;
+
             return (
               <CartItem key={restaurant.id}>
                 <CartItemRestaurant restaurant={restaurant} />

@@ -12,4 +12,14 @@ export const cartService = {
 
     return data;
   },
+
+  update: async (req: { cartId: number; quantity: number }) => {
+    const { data } = await apiInstance.put(`/cart/${req.cartId}`, req);
+    return data;
+  },
+
+  remove: async (req: { cartId: number }) => {
+    const { data } = await apiInstance.delete(`/cart/${req.cartId}`);
+    return data;
+  },
 };

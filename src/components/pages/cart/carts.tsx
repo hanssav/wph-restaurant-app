@@ -1,3 +1,4 @@
+import { ItemCounter } from '@/components/container/item-counter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn, formatMoney } from '@/lib/utils';
@@ -68,24 +69,9 @@ export const CartItemMenu = ({
         </h4>
       </div>
     </div>
-    <ItemCounter />
+    <ItemCounter count={1} />
   </div>
 );
-
-export const ItemCounter = () => {
-  const count = 1;
-  return (
-    <div className='flex-start gap-4'>
-      <Button variant='outline' size='icon-sm' className='p-2'>
-        <Minus className='size-4 stroke-neutra-950' />
-      </Button>
-      <p className='text-md-semibold md:text-lg-semibold'>{count}</p>
-      <Button size={'icon-sm'} className='p-2'>
-        <Plus className='size-4 stroke-white' />
-      </Button>
-    </div>
-  );
-};
 
 export const CartItemSummary = ({ subTotal }: { subTotal: number }) => (
   <div className='flex-col-start gap-3 md:flex-between'>

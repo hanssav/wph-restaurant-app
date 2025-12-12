@@ -1,28 +1,30 @@
 import { PATH } from '@/constants';
-import { usePrefetch } from '@/lib/react-query';
+import { useCart } from '@/hooks';
 import { cn } from '@/lib/utils';
-import { cartService } from '@/services';
+import { useAppDispatch } from '@/store/hooks';
+import { setCarts } from '@/store/slice/cart-slice';
 import { Handbag } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import React from 'react';
 
 type Props = { count?: number; isHome?: boolean; isScrolled: boolean };
 
-export const HeaderCart = ({
-  count = 0,
-  isHome = false,
-  isScrolled,
-}: Props) => {
-  const prefetch = usePrefetch();
+export const HeaderCart = ({ isHome = false, isScrolled }: Props) => {
+  const { data: cart, isLoading } = useCart();
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    if (cart && !isLoading) {
+      dispatch(setCarts({ cart }));
+    }
+  }, [cart, isLoading, dispatch]);
+
   const router = useRouter();
-  const handleMouseEnter = () => {
-    prefetch(['cart'], () => cartService.getAll(), { staleTime: 1000 * 60 });
-  };
 
   return (
     <div
       className='relative cursor-pointer'
       onClick={() => router.push(PATH.CART)}
-      onMouseEnter={handleMouseEnter}
     >
       <Handbag
         className={cn(
@@ -30,8 +32,8 @@ export const HeaderCart = ({
           !isScrolled && isHome ? 'stroke-white' : 'stroke-neutral-950'
         )}
       />
-      <div className='absolute -top-1 -right-1 bg-accent-red text-white aspect-square rounded-full size-5 flex-center'>
-        {count}
+      <div className='absolute -top-1 -right-1 bg-accent-red text-white aspect-square rounded-full size-5 flex-center text-[12px]'>
+        {cart?.summary.totalItems ?? 0}
       </div>
     </div>
   );

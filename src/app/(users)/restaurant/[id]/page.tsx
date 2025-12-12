@@ -1,5 +1,7 @@
 'use client';
 import { InfiniteButton, StoreCard } from '@/components/container/card-store';
+import { CheckoutAction } from '@/components/container/checkout-action';
+import Spin from '@/components/container/spin';
 import {
   ContainerWrapper,
   SectionContent,
@@ -19,14 +21,13 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { FILTER_MENU } from '@/constants';
-import { useRestaurantDetail } from '@/hooks';
+import { useCartActions, useRestaurantDetail } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { Share2 } from 'lucide-react';
 import { useParams } from 'next/navigation';
 
 const RestaurantDetailPage = () => {
   const params = useParams();
-
   const id = Number(params.id);
 
   const {
@@ -40,10 +41,30 @@ const RestaurantDetailPage = () => {
     menuType,
   } = useRestaurantDetail({ id });
 
+  const {
+    menusInCart,
+    getMenuQuantity,
+    isMenuLoading,
+    handleAddCart,
+    handleRemoveCart,
+  } = useCartActions({
+    restaurantId: id,
+    restaurant: restaurant
+      ? {
+          id: restaurant.id,
+          logo: restaurant.logo,
+          name: restaurant.name,
+          menus: restaurant.menus,
+        }
+      : undefined,
+  });
+
+  if (isLoading) return <Spin />;
   if (!restaurant) return <div>Data not found</div>;
 
-  return (
+  return [
     <ContainerWrapper
+      key={'page-content'}
       className={cn(
         'border-neutral-300 [&>*:last-child]:border-b-0',
         '*:border-b *:pb-4 md:*:pb-9'
@@ -84,7 +105,14 @@ const RestaurantDetailPage = () => {
         <SectionContent>
           <Menus>
             {restaurant.menus.map((menu) => (
-              <MenusItems key={menu.id} menu={menu} />
+              <MenusItems
+                key={menu.id}
+                menu={menu}
+                onAdd={() => handleAddCart(menu.id)}
+                menusInCart={menusInCart}
+                onRemove={() => handleRemoveCart(menu.id)}
+                isLoading={isMenuLoading(menu.id)}
+              />
             ))}
           </Menus>
           <InfiniteButton
@@ -118,8 +146,10 @@ const RestaurantDetailPage = () => {
           />
         </SectionContent>
       </SectionWrapper>
-    </ContainerWrapper>
-  );
+    </ContainerWrapper>,
+
+    <CheckoutAction key={'page-footer'} />,
+  ];
 };
 
 export default RestaurantDetailPage;
