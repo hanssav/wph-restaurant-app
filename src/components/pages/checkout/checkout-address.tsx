@@ -20,6 +20,7 @@ export const CheckoutAddress = () => {
                 src={ICONS.PIN_LOCATION}
                 alt='location-icon'
                 fill
+                sizes='24px'
                 loading='lazy'
               />
             </div>

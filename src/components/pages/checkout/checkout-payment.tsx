@@ -56,7 +56,7 @@ export const CheckoutPaymentMethod = ({
                 return (
                   <div key={bank.id} className='flex-between items-center'>
                     <div className='flex items-center gap-3'>
-                      <div className='relative size-10 aspect-square rounded-md border border-neutral-300 flex-center'>
+                      <div className='relative size-10 rounded-md border border-neutral-300 flex-center'>
                         <Image
                           src={bank.icon}
                           alt={bank.name}
@@ -64,6 +64,7 @@ export const CheckoutPaymentMethod = ({
                           height={11}
                           loading='lazy'
                           className='object-contain'
+                          style={{ width: 'auto', height: 'auto' }}
                         />
                       </div>
                       <Label htmlFor={itemId} className='desc'>
