@@ -5,3 +5,4 @@ export * from './hero.constants';
 export * from './category-constants';
 export * from './footer.constants';
 export * from './filter.constants';
+export * from './checkout.constants';

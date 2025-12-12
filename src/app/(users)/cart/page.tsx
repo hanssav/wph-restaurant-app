@@ -19,9 +19,9 @@ const CartPage = () => {
   const { cart: data } = useAppSelector((state: RootState) => state.cart);
   const router = useRouter();
 
-  const handleClickCheckout = () => {
-    router.push(PATH.CHECKOUT);
-  };
+  const handleClickCheckout = () => router.push(PATH.CHECKOUT);
+  const handleClickRestaurant = (restaurantId: number) =>
+    router.push(`${PATH.RESTAURANT}/${restaurantId}`);
 
   if (!data || data.cart.length === 0) {
     return (
@@ -42,7 +42,10 @@ const CartPage = () => {
 
             return (
               <CartItem key={restaurant.id}>
-                <CartItemRestaurant restaurant={restaurant} />
+                <CartItemRestaurant
+                  restaurant={restaurant}
+                  handleOnClick={() => handleClickRestaurant(restaurant.id)}
+                />
                 {items.map((item) => (
                   <CartItemMenu
                     key={item.id}

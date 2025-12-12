@@ -26,24 +26,28 @@ export const CartItem = ({ children, className, ...props }: CartItemProps) => {
 
 export const CartItemRestaurant = ({
   restaurant,
+  handleOnClick,
 }: {
   restaurant: CartRestaurant;
-}) => (
-  <div className='flex-start gap-1 md:gap-2'>
-    <div className='relative overflow-hidden size-8 aspect-square'>
-      <Image
-        src={restaurant.logo}
-        alt={restaurant.name}
-        fill
-        sizes='32px'
-        loading='lazy'
-        className='object-cover'
-      />
+  handleOnClick: () => void;
+}) => {
+  return (
+    <div className='flex-start gap-1 md:gap-2' onClick={handleOnClick}>
+      <div className='relative overflow-hidden size-8 aspect-square'>
+        <Image
+          src={restaurant.logo}
+          alt={restaurant.name}
+          fill
+          sizes='32px'
+          loading='lazy'
+          className='object-cover'
+        />
+      </div>
+      <h2 className='text-md-bold md:text-lg-bold'>{restaurant.name}</h2>
+      <ChevronRight className='size-5 aspect-square' />
     </div>
-    <h2 className='text-md-bold md:text-lg-bold'>{restaurant.name}</h2>
-    <ChevronRight className='size-5 aspect-square' />
-  </div>
-);
+  );
+};
 
 export const CartItemMenu = ({
   className,
@@ -74,7 +78,7 @@ export const CartItemMenu = ({
   return (
     <div className={cn('flex-between', className)} {...props}>
       <div className='flex-start gap-4'>
-        <div className='relative overflow-hidden aspect-square size-16 md:size-20'>
+        <div className='relative overflow-hidden aspect-square size-16 md:size-20 rounded-[12px]'>
           <Image
             fill
             loading='lazy'

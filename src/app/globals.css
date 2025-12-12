@@ -259,6 +259,10 @@
   @apply text-sm-medium md:text-md-medium text-neutral-950;
 }
 
+@utility title {
+  @apply text-md-extrabold md:text-lg-extrabold text-neutral-950;
+}
+
 [data-sonner-toast][data-type='success'],
 .sonner-success-toast {
   background-color: #079455 !important;

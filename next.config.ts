@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
         hostname: 'logos-world.net',
       },
       { protocol: 'https', hostname: 'res.cloudinary.com' },
+      { protocol: 'https', hostname: 'seeklogo.com' },
     ],
   },
 };

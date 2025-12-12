@@ -12,4 +12,5 @@ export const ICONS = {
   DISCOUNT: '/icons/discount.png',
   LOCATION: '/icons/location.png',
   LUNCH: '/icons/lunch.png',
+  PIN_LOCATION: '/icons/pin-location.png',
 };
