@@ -21,7 +21,8 @@ export const BANKS = [
   },
 ] as const;
 
-export type Bank = (typeof BANKS)[number];
+export type BankId = (typeof BANKS)[number]['id'];
+export type BankName = (typeof BANKS)[number]['name'];
 
 export const PAYMENT_SUMMARY = [
   {
@@ -48,3 +49,15 @@ export const PAYMENT_SUMMARY = [
 ];
 
 export type PayemnetSummary = (typeof PAYMENT_SUMMARY)[number];
+
+export type CheckoutAddressType = {
+  deliveryAddress: string;
+  phone: string;
+  label: string;
+};
+
+export const deffaultAddress: CheckoutAddressType = {
+  label: 'Delivery Address',
+  deliveryAddress: 'Jl. Sudirman No. 25, Jakarta Pusat, 10220',
+  phone: '0812-3456-7890',
+};

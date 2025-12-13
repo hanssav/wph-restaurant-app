@@ -47,7 +47,7 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 dayjs.extend(advancedFormat);
 
 export const formatDate = (
-  date: string | Date,
+  date: string | Date | number,
   format: string = 'D MMMM YYYY, HH:mm'
 ) => {
   return dayjs(date).format(format);

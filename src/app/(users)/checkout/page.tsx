@@ -14,17 +14,19 @@ import {
   CheckoutAddress,
   CheckoutPaymentMethod,
 } from '@/components/pages/checkout';
-import { PATH } from '@/constants';
-import { useAppSelector } from '@/store/hooks';
-import { RootState } from '@/store/store';
-import { useRouter } from 'next/navigation';
+import { useCheckout } from '@/hooks';
 
 const CheckoutPage = () => {
-  const router = useRouter();
-  const { cart: data } = useAppSelector((state: RootState) => state.cart);
-
-  const handleClickRestaurant = (restaurantId: number) =>
-    router.push(`${PATH.RESTAURANT}/${restaurantId}`);
+  const {
+    data,
+    address,
+    setAddress,
+    selectedBank,
+    setSelectedBank,
+    isCheckoutLoading,
+    handleClickRestaurant,
+    handleCheckout,
+  } = useCheckout();
 
   if (!data || data.cart.length === 0) {
     return (
@@ -41,10 +43,10 @@ const CheckoutPage = () => {
       <SectionWrapper title='Checkout'>
         <div className='flex-col-start md:flex-row gap-4 md:gap-5'>
           <div className='w-full flex-col-start gap-4 md:gap-5'>
-            <CheckoutAddress />
+            <CheckoutAddress address={address} />
             <Carts className='w-full'>
               {data.cart.map((cart) => {
-                const { items, restaurant, subtotal } = cart;
+                const { items, restaurant } = cart;
 
                 return (
                   <CartItem key={restaurant.id}>
@@ -66,7 +68,13 @@ const CheckoutPage = () => {
             </Carts>
           </div>
 
-          <CheckoutPaymentMethod summary={data.summary} />
+          <CheckoutPaymentMethod
+            handleBuy={handleCheckout}
+            selectedBank={selectedBank}
+            setSelectedBank={setSelectedBank}
+            summary={data.summary}
+            isCheckoutLoading={isCheckoutLoading}
+          />
         </div>
       </SectionWrapper>
     </ContainerWrapper>

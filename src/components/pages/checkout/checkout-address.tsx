@@ -1,15 +1,13 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ICONS } from '@/constants';
+import { CheckoutAddressType, ICONS } from '@/constants';
 import Image from 'next/image';
 
-export const CheckoutAddress = () => {
-  const address = {
-    label: 'Delivery Address',
-    fullAddress: 'Jl. Sudirman No. 25, Jakarta Pusat, 10220',
-    noHp: '0812-3456-7890',
-  };
-
+export const CheckoutAddress = ({
+  address,
+}: {
+  address: CheckoutAddressType;
+}) => {
   return (
     <Card className='w-full py-4 md:py-5 rounded-2xl'>
       <CardContent className='px-4 md:px-5 space-y-4 md:space-y-5'>
@@ -26,8 +24,8 @@ export const CheckoutAddress = () => {
             </div>
             <h4 className='title'>{address.label}</h4>
           </div>
-          <p className='desc'>{address.fullAddress}</p>
-          <p className='desc'>{address.noHp}</p>
+          <p className='desc'>{address.deliveryAddress}</p>
+          <p className='desc'>{address.phone}</p>
         </div>
         <Button
           variant={'outline'}

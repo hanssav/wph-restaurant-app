@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { BANKS } from '@/constants';
+import { BankName, BANKS } from '@/constants';
 import { cn, formatMoney } from '@/lib/utils';
 import { CartSummary } from '@/types';
 import { Button } from '@/components/ui/button';
@@ -15,13 +15,17 @@ const Wrapper = ({ className, ...props }: React.ComponentProps<'div'>) => (
 
 export const CheckoutPaymentMethod = ({
   summary,
-  onClick,
+  handleBuy,
+  setSelectedBank,
+  selectedBank,
+  isCheckoutLoading,
 }: {
   summary: CartSummary;
-  onClick?: () => void;
+  handleBuy?: () => void;
+  selectedBank: BankName;
+  setSelectedBank: React.Dispatch<React.SetStateAction<BankName>>;
+  isCheckoutLoading: boolean;
 }) => {
-  const defaultValue = BANKS[0]?.id?.toString() ?? '';
-  const [selectedBank, setSelectedBank] = React.useState(defaultValue);
   const deliveryFee = 10000;
   const serviceFee = 1000;
   const total = summary.totalPrice + deliveryFee + serviceFee;
@@ -36,6 +40,12 @@ export const CheckoutPaymentMethod = ({
     { id: 'total', label: 'Total', value: total },
   ];
 
+  const handleBankChange = (value: string) => {
+    if (BANKS.some((b) => b.name === value)) {
+      setSelectedBank(value as BankName);
+    }
+  };
+
   return (
     <Card className='w-full py-4 md:py-5 rounded-2xl overflow-visible relative'>
       <CardContent className='px-4 md:px-5 space-y-6'>
@@ -44,7 +54,7 @@ export const CheckoutPaymentMethod = ({
           <div className='relative'>
             <RadioGroup
               value={selectedBank}
-              onValueChange={setSelectedBank}
+              onValueChange={handleBankChange}
               className={cn(
                 'space-y-3',
                 '*:border-b *:border-neutral-300 *:last:border-none *:pb-4',
@@ -71,7 +81,7 @@ export const CheckoutPaymentMethod = ({
                         {bank.name}
                       </Label>
                     </div>
-                    <RadioGroupItem value={String(bank.id)} id={itemId} />
+                    <RadioGroupItem value={String(bank.name)} id={itemId} />
                   </div>
                 );
               })}
@@ -91,8 +101,8 @@ export const CheckoutPaymentMethod = ({
               <h4 className='title'>{formatMoney(sm.value)}</h4>
             </div>
           ))}
-          <Button onClick={onClick} className='w-full'>
-            Buy
+          <Button onClick={handleBuy} className='w-full'>
+            {isCheckoutLoading ? 'Processing...' : 'Buy'}
           </Button>
         </Wrapper>
       </CardContent>

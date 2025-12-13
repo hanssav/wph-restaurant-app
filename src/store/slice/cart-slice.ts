@@ -1,12 +1,19 @@
-import { CartData, CartItem, CartRestaurant } from '@/types';
+import { CartData, CartItem, CartRestaurant, CartSummary } from '@/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+interface Checkout extends CartSummary {
+  bankName: string;
+  date: Date | number;
+}
 
 interface CartState {
   cart: CartData | null;
+  checkout: Checkout | null;
 }
 
 const initialState: CartState = {
   cart: null,
+  checkout: null,
 };
 
 const updateCartSummary = (cart: CartData) => {
@@ -173,6 +180,10 @@ const cartSlice = createSlice({
       updateCartSummary(state.cart);
     },
 
+    checkout: (state, action: PayloadAction<{ checkout: Checkout }>) => {
+      state.checkout = action.payload.checkout;
+    },
+
     clearCart: (state) => {
       state.cart = null;
     },
@@ -185,6 +196,7 @@ export const {
   updateCartItemQuantity,
   removeCartItem,
   removeCartGroup,
+  checkout,
   clearCart,
 } = cartSlice.actions;
 

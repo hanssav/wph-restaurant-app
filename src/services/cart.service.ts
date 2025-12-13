@@ -22,4 +22,10 @@ export const cartService = {
     const { data } = await apiInstance.delete(`/cart/${req.cartId}`);
     return data;
   },
+
+  clear: async () => {
+    const { data } = await apiInstance.delete('/cart');
+
+    return data;
+  },
 };
