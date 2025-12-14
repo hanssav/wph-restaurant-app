@@ -23,7 +23,7 @@ const ProfileLayout = ({ children }: Props) => {
   return (
     <ContainerWrapper>
       <div className='flex flex-col md:flex-row gap-8'>
-        <aside className='w-full md:w-60 md:shrink-0'>
+        <aside className='hidden md:block w-full md:w-60 md:shrink-0'>
           <Card className='flex flex-col rounded-2xl py-5 gap-1'>
             <div className='flex-start gap-2 pb-6 mx-5 mb-5 border-b border-neutral-200'>
               <Avatar src={user.avatar} alt={user.name} />

@@ -69,6 +69,9 @@ const Header = () => {
                 </DropdownMenuItem>
                 {PROFILE_MENU.map((menu) => {
                   const isActive = pathname === menu.href;
+                  const isSpecialItem =
+                    menu.label === 'Logout' ||
+                    menu.label === 'Delivery Address';
 
                   return (
                     <DropdownMenuItem
@@ -76,13 +79,10 @@ const Header = () => {
                       className={cn(
                         'group flex-start gap-2 px-3 py-2 w-56 rounded-md transition-colors cursor-pointer',
                         isActive
-                          ? 'bg-primary-100 text-white'
-                          : 'hover:bg-primary-100 text-neutral-950'
+                          ? 'text-primary-100'
+                          : 'text-neutral-950 hover:bg-primary-100 hover:text-white'
                       )}
                       onClick={() => {
-                        const isSpecialItem =
-                          menu.label === 'Logout' ||
-                          menu.label === 'Delivery Address';
                         if (isSpecialItem) return;
                         router.push(menu.href);
                       }}
@@ -91,18 +91,11 @@ const Header = () => {
                         className={cn(
                           'transition-colors',
                           isActive
-                            ? 'stroke-white'
+                            ? 'stroke-primary-100'
                             : 'stroke-neutral-950 group-hover:stroke-white'
                         )}
                       />
-                      <span
-                        className={cn(
-                          'transition-colors text-md-regular',
-                          isActive
-                            ? 'text-white'
-                            : 'text-neutral-950 group-hover:text-white'
-                        )}
-                      >
+                      <span className='transition-colors text-md-regular'>
                         {menu.label}
                       </span>
                     </DropdownMenuItem>

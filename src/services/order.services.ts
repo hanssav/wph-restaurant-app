@@ -5,7 +5,7 @@ import {
   GetOrdersResponse,
 } from '@/types';
 
-export const checkoutService = {
+export const orderService = {
   get: async (params: GetOrdersParams): Promise<GetOrdersResponse> => {
     const { data } = await apiInstance.get<GetOrdersResponse>(
       '/order/my-order',

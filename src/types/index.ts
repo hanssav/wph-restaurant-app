@@ -4,4 +4,5 @@ export * from './form-fields.types';
 export * from './restaurant.type';
 export * from './restaurant-detail';
 export * from './cart.types';
-export * from './checkout.types';
+export * from './orders.types';
+export * from './review.types';
