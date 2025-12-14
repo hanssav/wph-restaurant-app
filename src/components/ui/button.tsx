@@ -19,7 +19,7 @@ const buttonVariants = cva(
           'bg-white text-neutral-950 border border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300 hover:shadow-md rounded-[100px] transition-all duration-200',
 
         ghost:
-          'bg-transparent text-neutral-700 hover:bg-red-50 hover:text-red-700 rounded-[100px] transition-all duration-200',
+          'bg-transparent text-neutral-700 rounded-[100px] transition-all duration-200',
 
         link: 'text-primary-100 hover:text-red-700 underline-offset-4 hover:underline font-medium transition-colors duration-200',
 

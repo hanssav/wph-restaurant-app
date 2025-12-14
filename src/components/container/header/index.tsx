@@ -67,20 +67,47 @@ const Header = () => {
 
                   <p className={cn('text-md-bold')}>{user.name}</p>
                 </DropdownMenuItem>
-                {PROFILE_MENU.map((menu) => (
-                  <DropdownMenuItem
-                    key={menu.href}
-                    className={cn(
-                      'group flex-start gap-2 px-3 py-2 w-56 rounded-md',
-                      menu.className
-                    )}
-                  >
-                    <menu.icon
-                      className={cn('group-hover:stroke-white', menu.className)}
-                    />
-                    <span className='group-hover:text-white'>{menu.label}</span>
-                  </DropdownMenuItem>
-                ))}
+                {PROFILE_MENU.map((menu) => {
+                  const isActive = pathname === menu.href;
+
+                  return (
+                    <DropdownMenuItem
+                      key={menu.href}
+                      className={cn(
+                        'group flex-start gap-2 px-3 py-2 w-56 rounded-md transition-colors cursor-pointer',
+                        isActive
+                          ? 'bg-primary-100 text-white'
+                          : 'hover:bg-primary-100 text-neutral-950'
+                      )}
+                      onClick={() => {
+                        const isSpecialItem =
+                          menu.label === 'Logout' ||
+                          menu.label === 'Delivery Address';
+                        if (isSpecialItem) return;
+                        router.push(menu.href);
+                      }}
+                    >
+                      <menu.icon
+                        className={cn(
+                          'transition-colors',
+                          isActive
+                            ? 'stroke-white'
+                            : 'stroke-neutral-950 group-hover:stroke-white'
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          'transition-colors text-md-regular',
+                          isActive
+                            ? 'text-white'
+                            : 'text-neutral-950 group-hover:text-white'
+                        )}
+                      >
+                        {menu.label}
+                      </span>
+                    </DropdownMenuItem>
+                  );
+                })}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

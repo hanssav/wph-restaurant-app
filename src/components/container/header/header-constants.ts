@@ -1,24 +1,25 @@
-import { MapPin, Package, LogOut } from 'lucide-react';
+import { PATH } from '@/constants';
+import { MapPin, Package, LogOut, User } from 'lucide-react';
 
 export const PROFILE_MENU = [
   {
+    label: 'Profile',
+    icon: User,
+    href: PATH.PROFILE,
+  },
+  {
     label: 'Delivery Address',
+    href: 'delivery',
     icon: MapPin,
-    href: '/delivery-address',
-    className: 'hover:!text-white hover:!bg-primary-100',
   },
   {
     label: 'My Orders',
     icon: Package,
-    href: '/orders',
-    className: 'hover:!text-white hover:!bg-primary-100',
+    href: PATH.MY_ORDERS,
   },
   {
     label: 'Logout',
     icon: LogOut,
-    href: '/logout',
-    iconClassname: 'w-4 h-4 group-hover:text-white group-hover:stroke-white',
-    className:
-      'text-primary-100 hover:text-white font-semibold hover:!text-white hover:!bg-primary-100 hover:stroke-white',
+    href: 'logout',
   },
 ];

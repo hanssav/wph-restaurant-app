@@ -123,7 +123,7 @@ const CheckoutSuccess = () => {
 
   return (
     <div className='min-h-screen min-w-screen bg-neutral-50 flex justify-center'>
-      <div className='w-full max-w-[430px] px-6 py-7 flex-col-center gap-5'>
+      <div className='w-full max-w-[500px] px-6 py-7 flex-col-center gap-5'>
         <div className='relative overflow-hidden w-[149px] h-[42px]'>
           <Image src={IMAGES.LOGO} alt='logo' fill className='object-cover' />
         </div>
