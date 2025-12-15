@@ -30,8 +30,8 @@ import { useMyOrders, useAddReview } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { Loader2, ShoppingBag, AlertCircle } from 'lucide-react';
-import Spin from '@/components/container/spin';
+import { ShoppingBag, AlertCircle } from 'lucide-react';
+import { Spin } from '@/components/container/spin';
 
 const ErrorState = ({
   error,

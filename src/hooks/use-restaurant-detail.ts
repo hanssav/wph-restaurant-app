@@ -48,7 +48,7 @@ export const useRestaurantDetail = ({ id }: { id: number }) => {
   const hasNextMenus = React.useMemo<boolean>(() => {
     if (!restaurant?.totalMenus) return false;
     return (params.limitMenu ?? 0) < restaurant.totalMenus;
-  }, [restaurant?.totalMenus, params.limitMenu]);
+  }, [restaurant, params.limitMenu]);
 
   const handleFetchNextMenus = React.useCallback(() => {
     setParams((prev) => ({
@@ -61,7 +61,7 @@ export const useRestaurantDetail = ({ id }: { id: number }) => {
     if (!restaurant?.totalReviews) return false;
 
     return (params.limitReview ?? 0) < restaurant.totalReviews;
-  }, [restaurant?.totalReviews, params.limitReview]);
+  }, [restaurant, params.limitReview]);
 
   const handleFetchNextReviews = React.useCallback(() => {
     setParams((prev) => ({

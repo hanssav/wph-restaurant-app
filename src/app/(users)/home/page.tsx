@@ -6,7 +6,7 @@ import {
   StoreList,
   StoreNotFound,
 } from '@/components/container/card-store';
-import Spin from '@/components/container/spin';
+import { Spin } from '@/components/container/spin';
 import {
   ContainerWrapper,
   SectionContent,

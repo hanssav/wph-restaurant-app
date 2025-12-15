@@ -28,21 +28,20 @@ import {
  *   >(['restaurants', filter], restaurantService.getAll, filter);
  */
 
+type QueryOptionsWithoutKeyAndFn<TData, TError> = Omit<
+  UseQueryOptions<TData, TError, TData, QueryKey>,
+  'queryKey' | 'queryFn'
+>;
+
 export function useQuery<TData = unknown, TParams = void, TError = Error>(
   queryKey: QueryKey,
   queryFn: TParams extends void
     ? () => Promise<TData>
     : (params: TParams) => Promise<TData>,
   paramsOrOptions?: TParams extends void
-    ? Omit<
-        UseQueryOptions<TData, TError, TData, QueryKey>,
-        'queryKey' | 'queryFn'
-      >
+    ? QueryOptionsWithoutKeyAndFn<TData, TError>
     : TParams,
-  options?: Omit<
-    UseQueryOptions<TData, TError, TData, QueryKey>,
-    'queryKey' | 'queryFn'
-  >
+  options?: QueryOptionsWithoutKeyAndFn<TData, TError>
 ) {
   const hasParams =
     paramsOrOptions !== undefined &&
@@ -56,6 +55,8 @@ export function useQuery<TData = unknown, TParams = void, TError = Error>(
             paramsOrOptions as TParams
           )
       : (queryFn as () => Promise<TData>),
-    ...(hasParams ? options : (paramsOrOptions as any)),
+    ...(hasParams
+      ? options
+      : (paramsOrOptions as QueryOptionsWithoutKeyAndFn<TData, TError>)),
   });
 }

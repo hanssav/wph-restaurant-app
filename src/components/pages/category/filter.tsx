@@ -16,7 +16,6 @@ export const FilterTitle = ({ className, ...props }: ComponentProps<'h4'>) => {
 
 export const FilterSection = ({
   title,
-  className,
   children,
   ...props
 }: { title?: string } & ComponentProps<'div'>) => (

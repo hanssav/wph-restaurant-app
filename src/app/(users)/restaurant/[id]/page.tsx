@@ -1,7 +1,7 @@
 'use client';
 import { InfiniteButton, StoreCard } from '@/components/container/card-store';
 import { CheckoutAction } from '@/components/container/checkout-action';
-import Spin from '@/components/container/spin';
+import { Spin } from '@/components/container/spin';
 import {
   ContainerWrapper,
   SectionContent,
@@ -41,23 +41,18 @@ const RestaurantDetailPage = () => {
     menuType,
   } = useRestaurantDetail({ id });
 
-  const {
-    menusInCart,
-    getMenuQuantity,
-    isMenuLoading,
-    handleAddCart,
-    handleRemoveCart,
-  } = useCartActions({
-    restaurantId: id,
-    restaurant: restaurant
-      ? {
-          id: restaurant.id,
-          logo: restaurant.logo,
-          name: restaurant.name,
-          menus: restaurant.menus,
-        }
-      : undefined,
-  });
+  const { menusInCart, isMenuLoading, handleAddCart, handleRemoveCart } =
+    useCartActions({
+      restaurantId: id,
+      restaurant: restaurant
+        ? {
+            id: restaurant.id,
+            logo: restaurant.logo,
+            name: restaurant.name,
+            menus: restaurant.menus,
+          }
+        : undefined,
+    });
 
   if (isLoading) return <Spin />;
   if (!restaurant) return <div>Data not found</div>;

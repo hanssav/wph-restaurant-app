@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
 import { Avatar } from '../avatar';
 import { useHeaderScroll } from './use-header-scroll';
-import { useLogout, useProfile } from '@/hooks';
+import { useLogout } from '@/hooks';
 
 const Header = () => {
   const logout = useLogout();
@@ -83,7 +83,6 @@ const Header = () => {
                       )}
                       onClick={() => {
                         if (menu.label === 'Logout') return logout();
-                        if (menu.label === 'Delivery Address') return;
                         router.push(menu.href);
                       }}
                     >

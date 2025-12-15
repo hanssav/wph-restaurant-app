@@ -9,7 +9,7 @@ export const PROFILE_MENU = [
   },
   {
     label: 'Delivery Address',
-    href: 'delivery',
+    href: PATH.DELIVERY,
     icon: MapPin,
   },
   {

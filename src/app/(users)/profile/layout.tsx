@@ -1,7 +1,7 @@
 'use client';
 import { Avatar } from '@/components/container/avatar';
 import { PROFILE_MENU } from '@/components/container/header/header-constants';
-import Spin from '@/components/container/spin';
+import { Spin } from '@/components/container/spin';
 import { ContainerWrapper } from '@/components/container/wrapper';
 import { Card } from '@/components/ui/card';
 import { useLogout } from '@/hooks';
@@ -46,7 +46,6 @@ const ProfileLayout = ({ children }: Props) => {
                   )}
                   onClick={() => {
                     if (menu.label === 'Logout') return logout();
-                    if (menu.label === 'Delivery Address') return;
                     router.push(menu.href);
                   }}
                 >

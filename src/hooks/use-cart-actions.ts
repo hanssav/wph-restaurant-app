@@ -127,7 +127,7 @@ export const useCartActions = ({
         restaurantId: restaurant.id,
       });
     },
-    [restaurant, dispatch, addToCart]
+    [restaurant, dispatch, addToCart, restaurantId]
   );
 
   const handleRemoveCart = useCallback(

@@ -20,7 +20,6 @@ const CheckoutPage = () => {
   const {
     data,
     address,
-    setAddress,
     selectedBank,
     setSelectedBank,
     isCheckoutLoading,

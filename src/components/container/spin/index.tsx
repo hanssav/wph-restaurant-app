@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import { ComponentProps } from 'react';
 
-const Spin = ({ className, ...props }: ComponentProps<'div'>) => {
+export const Spin = ({ className, ...props }: ComponentProps<'div'>) => {
   return (
     <div className='min-h-56 flex items-center justify-center w-full'>
       <div
@@ -14,5 +14,3 @@ const Spin = ({ className, ...props }: ComponentProps<'div'>) => {
     </div>
   );
 };
-
-export default Spin;

@@ -75,7 +75,9 @@ export const StoreCard = ({
   onPrefetch?: (id: number) => void;
 } & React.ComponentProps<'div'>) => {
   // mock distance, no in api
-  const distance = (Math.random() * 9 + 1).toFixed(1);
+  // mock distance, no in api
+  const [distance] = React.useState(() => (Math.random() * 9 + 1).toFixed(1));
+
   const router = useRouter();
 
   const handleHover = React.useCallback(() => {

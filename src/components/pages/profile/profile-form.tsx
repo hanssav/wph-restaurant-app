@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { profileFormConfig } from '@/constants';
 import { useUpdateProfile } from '@/hooks/use-update-profile';
-import { Loader2 } from 'lucide-react';
 import React from 'react';
 
 export const UpdateProfileForm = ({
@@ -18,22 +17,17 @@ export const UpdateProfileForm = ({
     form,
     handleFileOnChange,
     onSubmit,
-    updateProfileMutation,
     user,
   } = useUpdateProfile();
 
-  React.useEffect(() => {
-    if (updateProfileMutation.isSuccess) {
-      setOpen(false);
-    }
-  }, [updateProfileMutation.isSuccess, setOpen]);
+  const handleSubmit = form.handleSubmit((data) => {
+    onSubmit(data);
+    setOpen(false);
+  });
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className='space-y-4 md:space-y-6'
-      >
+      <form onSubmit={handleSubmit} className='space-y-4 md:space-y-6'>
         <AvatarUpload
           avatarUrl={avatarPreview}
           avatarAlt={user?.name || 'User avatar'}
@@ -57,13 +51,15 @@ export const UpdateProfileForm = ({
           ))}
         </div>
 
-        <div className='flex justify-end'>
-          <Button type='submit' disabled={updateProfileMutation.isPending}>
-            {updateProfileMutation.isPending && (
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-            )}
-            {updateProfileMutation.isPending ? 'Updating...' : 'Update Profile'}
+        <div className='flex justify-end gap-3'>
+          <Button
+            type='button'
+            variant='outline'
+            onClick={() => setOpen(false)}
+          >
+            Cancel
           </Button>
+          <Button type='submit'>Update Profile</Button>
         </div>
       </form>
     </Form>

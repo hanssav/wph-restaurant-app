@@ -3,7 +3,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { cn, formatDate } from '@/lib/utils';
 import { RestaurantDetail, RestaurantReview } from '@/types';
 import { Star } from 'lucide-react';
-import Image from 'next/image';
 
 export const ReviewTitle = ({
   totalReviews,

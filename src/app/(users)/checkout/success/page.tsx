@@ -55,15 +55,15 @@ const useCheckoutSuccess = () => {
   const checkout = useAppSelector((state: RootState) => state.cart.checkout);
   const router = useRouter();
 
-  const deliveryFee = React.useMemo(
-    () => generateRandomFee(10_000, 50_000),
-    [checkout?.totalPrice]
-  );
+  const deliveryFee = React.useMemo(() => {
+    if (!checkout?.totalPrice) return 0;
+    return generateRandomFee(10_000, 50_000);
+  }, [checkout?.totalPrice]);
 
-  const serviceFee = React.useMemo(
-    () => generateRandomFee(1_000, 10_000),
-    [checkout?.totalPrice]
-  );
+  const serviceFee = React.useMemo(() => {
+    if (!checkout?.totalPrice) return 0;
+    return generateRandomFee(1_000, 10_000);
+  }, [checkout?.totalPrice]);
 
   const checkoutSummary: SummaryItem[] = React.useMemo(() => {
     if (!checkout) return [];

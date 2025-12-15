@@ -4,9 +4,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useCartActions } from '@/hooks';
 import { cn, formatMoney } from '@/lib/utils';
 import { CartItem as CartItemType, CartRestaurant } from '@/types';
-import { ChevronRight, Minus, Plus } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import Image from 'next/image';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 export const Carts = ({ className, ...props }: React.ComponentProps<'div'>) => (
   <div className={cn('space-y-5', className)} {...props} />

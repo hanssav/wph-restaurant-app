@@ -33,7 +33,7 @@ export const useRestaurant = ({ filter }: { filter: GetRestaurantParams }) => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [hasNextPage, isFetchingNextPage]);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const prefetch = usePrefetch();
 

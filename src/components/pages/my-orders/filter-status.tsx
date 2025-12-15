@@ -7,7 +7,7 @@ export const FilterStatus = ({
 }: React.ComponentProps<'div'>) => {
   return (
     <div
-      className={cn('flex-start gap-2 md:gap-3 overflow-x-auto')}
+      className={cn('flex-start gap-2 md:gap-3 overflow-x-auto', className)}
       {...props}
     />
   );

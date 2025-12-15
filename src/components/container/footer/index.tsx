@@ -16,7 +16,8 @@ export const FooterWrapper = ({
   <div className='w-screen bg-neutral-950'>
     <footer
       className={cn(
-        'container-x py-10 md:py-20 flex-col-start gap-6 md:flex-between'
+        'container-x py-10 md:py-20 flex-col-start gap-6 md:flex-between',
+        className
       )}
       {...props}
     />
@@ -29,10 +30,17 @@ export const FooterInfo = ({ className, ...props }: ComponentProps<'div'>) => (
 
 export const FooterLogo = ({
   parentClassName,
+  alt = 'Company logo',
+
   ...props
-}: { parentClassName?: string } & ImageProps) => (
-  <div className={cn('relative overflow-hidden w-[149px] h-[42px]')}>
-    <Image fill sizes='(max-width: 768px) 149px, 149px' {...props} />
+}: { parentClassName?: string; alt?: string } & ImageProps) => (
+  <div
+    className={cn(
+      'relative overflow-hidden w-[149px] h-[42px]',
+      parentClassName
+    )}
+  >
+    <Image fill sizes='(max-width: 768px) 149px, 149px' alt={alt} {...props} />
   </div>
 );
 
