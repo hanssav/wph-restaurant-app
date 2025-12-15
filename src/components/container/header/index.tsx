@@ -20,8 +20,10 @@ import { cn } from '@/lib/utils';
 import { Menu } from 'lucide-react';
 import { Avatar } from '../avatar';
 import { useHeaderScroll } from './use-header-scroll';
+import { useLogout, useProfile } from '@/hooks';
 
 const Header = () => {
+  const logout = useLogout();
   const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname.includes(PATH.HOME);
@@ -36,7 +38,7 @@ const Header = () => {
   return (
     <header
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-600',
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         isScrolled ? 'bg-white shadow-card' : 'bg-transparent'
       )}
     >
@@ -69,9 +71,6 @@ const Header = () => {
                 </DropdownMenuItem>
                 {PROFILE_MENU.map((menu) => {
                   const isActive = pathname === menu.href;
-                  const isSpecialItem =
-                    menu.label === 'Logout' ||
-                    menu.label === 'Delivery Address';
 
                   return (
                     <DropdownMenuItem
@@ -83,7 +82,8 @@ const Header = () => {
                           : 'text-neutral-950 hover:bg-primary-100 hover:text-white'
                       )}
                       onClick={() => {
-                        if (isSpecialItem) return;
+                        if (menu.label === 'Logout') return logout();
+                        if (menu.label === 'Delivery Address') return;
                         router.push(menu.href);
                       }}
                     >

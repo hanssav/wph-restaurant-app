@@ -205,9 +205,7 @@ const MyOrders = () => {
                                     disabled={addReviewMutation.isPending}
                                     className='w-full'
                                   >
-                                    {addReviewMutation.isPending && (
-                                      <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                                    )}
+                                    {addReviewMutation.isPending && <Spin />}
                                     {addReviewMutation.isPending
                                       ? 'Sending...'
                                       : 'Send'}

@@ -24,7 +24,11 @@ export function Avatar({ src, alt, className, ...props }: AvatarProps) {
 
   return (
     <AvatarShacdn className={cn('size-10 md:size-12', className)} {...props}>
-      <AvatarImage src={src} alt={alt} className='object-cover' />
+      <AvatarImage
+        src={src}
+        alt={alt}
+        className='object-cover transition-opacity duration-200'
+      />
 
       <AvatarFallback
         className='text-sm font-medium md:text-base text-white'

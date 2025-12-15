@@ -4,6 +4,7 @@ import { PROFILE_MENU } from '@/components/container/header/header-constants';
 import Spin from '@/components/container/spin';
 import { ContainerWrapper } from '@/components/container/wrapper';
 import { Card } from '@/components/ui/card';
+import { useLogout } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store/store';
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const ProfileLayout = ({ children }: Props) => {
+  const logout = useLogout();
   const router = useRouter();
   const pathname = usePathname();
   const { user } = useAppSelector((state: RootState) => state.auth);
@@ -32,8 +34,6 @@ const ProfileLayout = ({ children }: Props) => {
 
             {PROFILE_MENU.map((menu) => {
               const isActive = pathname === menu.href;
-              const isSpecialItem =
-                menu.label === 'Logout' || menu.label === 'Delivery Address';
 
               return (
                 <div
@@ -45,7 +45,8 @@ const ProfileLayout = ({ children }: Props) => {
                       : 'text-neutral-950 hover:bg-primary-100 hover:text-white'
                   )}
                   onClick={() => {
-                    if (isSpecialItem) return;
+                    if (menu.label === 'Logout') return logout();
+                    if (menu.label === 'Delivery Address') return;
                     router.push(menu.href);
                   }}
                 >

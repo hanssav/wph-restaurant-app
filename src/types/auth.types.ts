@@ -1,4 +1,4 @@
-import { ApiSuccessResponse } from './api.types';
+import { ApiResponse, ApiSuccessResponse } from './api.types';
 
 export type User = {
   id: number;
@@ -35,3 +35,17 @@ export type ErrorResponse = {
 //   email: string;
 //   password: string;
 // };
+
+export type Profile = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string | null;
+  avatar: string;
+  latitude: number | null;
+  longitude: number | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type UpdateProfileResponse = ApiResponse<Profile>;

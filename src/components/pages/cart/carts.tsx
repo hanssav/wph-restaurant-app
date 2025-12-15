@@ -174,7 +174,7 @@ export const OrderSummary = ({
 }: React.ComponentProps<'div'>) => (
   <div
     className={cn(
-      'bg-neutral-50 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3',
+      'bg-neutral-50 rounded-lg px-2 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3',
       className
     )}
     {...props}
