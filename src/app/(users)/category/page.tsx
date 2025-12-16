@@ -3,9 +3,7 @@
 import {
   InfiniteButton,
   StoreCard,
-  StoreError,
   StoreList,
-  StoreNotFound,
 } from '@/components/container/card-store';
 import { Spin } from '@/components/container/spin';
 import {
@@ -34,6 +32,8 @@ import { useCategoryFilter, useRestaurant } from '@/hooks';
 import { ListFilter } from 'lucide-react';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { GetRestaurantParams } from '@/types';
+import { STATE_CONFIG } from '@/constants/state.constants';
+import { State } from '@/components/container/state';
 
 interface FilterContentProps {
   idPrefix?: string;
@@ -128,6 +128,7 @@ const CategoryPage = () => {
     isFetchingNextPage,
     isLoading,
     restaurants,
+    restaurantQuery,
   } = useRestaurant({ filter });
 
   return (
@@ -178,9 +179,14 @@ const CategoryPage = () => {
 
           <div className='w-full'>
             {isLoading && <Spin />}
-            {error && <StoreError />}
+            {error && (
+              <State
+                {...STATE_CONFIG.store.error}
+                onAction={() => restaurantQuery.refetch()}
+              />
+            )}
             {!isLoading && !error && restaurants.length === 0 && (
-              <StoreNotFound />
+              <State {...STATE_CONFIG.store.empty} />
             )}
             {!isLoading && !error && restaurants.length > 0 && (
               <>

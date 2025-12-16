@@ -75,8 +75,6 @@ export const useRestaurantDetail = ({ id }: { id: number }) => {
     setDisplayLimit(LIMIT_DATA);
   }, []);
 
-  console.log(menuType, 'menutype');
-
   return {
     restaurant,
     hasNextMenus,

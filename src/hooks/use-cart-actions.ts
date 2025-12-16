@@ -85,7 +85,6 @@ export const useCartActions = ({
 
   const handleAddCart = useCallback(
     (menuId: number) => {
-      console.log(menuId, restaurantId);
       if (!restaurant || !menuId) return;
 
       const menu = restaurant.menus
@@ -127,7 +126,7 @@ export const useCartActions = ({
         restaurantId: restaurant.id,
       });
     },
-    [restaurant, dispatch, addToCart, restaurantId]
+    [restaurant, dispatch, addToCart]
   );
 
   const handleRemoveCart = useCallback(

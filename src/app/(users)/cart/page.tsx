@@ -1,4 +1,5 @@
 'use client';
+import { State } from '@/components/container/state';
 import {
   ContainerWrapper,
   SectionWrapper,
@@ -11,6 +12,7 @@ import {
   Carts,
 } from '@/components/pages/cart';
 import { PATH } from '@/constants';
+import { STATE_CONFIG } from '@/constants/state.constants';
 import { useAppSelector } from '@/store/hooks';
 import { RootState } from '@/store/store';
 import { useRouter } from 'next/navigation';
@@ -27,7 +29,7 @@ const CartPage = () => {
     return (
       <ContainerWrapper>
         <SectionWrapper title='My Cart'>
-          <p>Your cart is empty</p>
+          <State {...STATE_CONFIG.cart.empty} />
         </SectionWrapper>
       </ContainerWrapper>
     );

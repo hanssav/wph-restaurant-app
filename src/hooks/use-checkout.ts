@@ -25,6 +25,10 @@ export const useCheckout = () => {
       dispatch(clearCart());
       router.push(PATH.CHECKOUT_SUCCESS);
       queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({
+        queryKey: ['my-orders'],
+        refetchType: 'all',
+      });
     },
   });
 

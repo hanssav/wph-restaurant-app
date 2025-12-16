@@ -71,14 +71,14 @@ export const signUpFields: FieldConfig[] = [
     name: 'password',
     type: 'password',
     label: 'Password',
-    // autoComplete: 'new-password',
+    autoComplete: 'new-password',
     showToggle: true,
   },
   {
     name: 'confirm-password',
     type: 'password',
     label: 'Confirm Password',
-    // autoComplete: 'new-password',
+    autoComplete: 'confirm-new-password',
     showToggle: true,
   },
 ];

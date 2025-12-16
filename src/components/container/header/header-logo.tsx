@@ -10,7 +10,7 @@ type Props = {
 export const HeaderLogo = ({ onClick, isHome = false, isScrolled }: Props) => {
   return (
     <div
-      className='relative overflow-hidden size-10 md:size-11 md:w-full md:max-w-40 z-50'
+      className='cursor-pointer relative overflow-hidden size-10 md:size-11 md:w-full md:max-w-40 z-50'
       onClick={onClick}
     >
       <Image

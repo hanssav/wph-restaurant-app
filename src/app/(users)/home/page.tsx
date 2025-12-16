@@ -2,11 +2,10 @@
 import {
   InfiniteButton,
   StoreCard,
-  StoreError,
   StoreList,
-  StoreNotFound,
 } from '@/components/container/card-store';
 import { Spin } from '@/components/container/spin';
+import { State } from '@/components/container/state';
 import {
   ContainerWrapper,
   SectionContent,
@@ -16,12 +15,15 @@ import {
 } from '@/components/container/wrapper';
 import { Hero, ListCategory, ListCategoryItems } from '@/components/pages/home';
 import { Button } from '@/components/ui/button';
-import { CATEGORY_MENU } from '@/constants';
+import { CATEGORY_MENU, PATH } from '@/constants';
+import { STATE_CONFIG } from '@/constants/state.constants';
+import { useHomeData } from '@/hooks';
 import { Restaurant } from '@/types';
+import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useHomeData } from './use-home-data';
 
 const HomePage = () => {
+  const router = useRouter();
   const {
     activeQuery,
     handleSearchFocus,
@@ -87,16 +89,25 @@ const HomePage = () => {
         <SectionWrapper>
           <SectionHeader className='flex-between!'>
             <SectionTitle>{categoryTitle}</SectionTitle>
-            <Button variant='ghost' className='text-primary-100'>
+            <Button
+              variant='ghost'
+              className='text-primary-100'
+              onClick={() => router.push(PATH.CATEGORY)}
+            >
               See All
             </Button>
           </SectionHeader>
 
           <SectionContent>
             {isLoading && <Spin />}
-            {error && <StoreError />}
+            {error && (
+              <State
+                {...STATE_CONFIG.store.error}
+                onAction={() => activeQuery.refetch()}
+              />
+            )}
             {!isLoading && !error && restaurants.length === 0 && (
-              <StoreNotFound />
+              <State {...STATE_CONFIG.store.empty} />
             )}
             {!isLoading &&
               !error &&

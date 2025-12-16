@@ -7,3 +7,4 @@ export * from './use-cart-actions';
 export * from './use-checkout';
 export * from './use-my-orders';
 export * from './use-add-review';
+export * from './use-home-data';

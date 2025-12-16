@@ -30,49 +30,9 @@ import { useMyOrders, useAddReview } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
-import { ShoppingBag, AlertCircle } from 'lucide-react';
 import { Spin } from '@/components/container/spin';
-
-const ErrorState = ({
-  error,
-  onRetry,
-}: {
-  error: Error | null;
-  onRetry: () => void;
-}) => {
-  return (
-    <div className='flex flex-col items-center justify-center py-12 space-y-4'>
-      <div className='rounded-full bg-primary-100/10 p-6'>
-        <AlertCircle className='h-12 w-12 text-primary-100' />
-      </div>
-      <div className='text-center space-y-2'>
-        <p className='font-semibold text-lg'>Failed to load orders</p>
-        <p className='text-muted-foreground text-sm'>
-          {error?.message || 'Something went wrong. Please try again.'}
-        </p>
-      </div>
-      <Button variant='outline' onClick={onRetry} className='mt-2'>
-        Try Again
-      </Button>
-    </div>
-  );
-};
-
-const EmptyState = () => {
-  return (
-    <div className='flex flex-col items-center justify-center py-12 space-y-4'>
-      <div className='rounded-full bg-primary-100/10 p-6'>
-        <ShoppingBag className='h-12 w-12 text-primary-100' />
-      </div>
-      <div className='text-center space-y-2'>
-        <p className='font-semibold text-lg'>No orders yet</p>
-        <p className='text-muted-foreground text-sm'>
-          Your order history will appear here once you place an order
-        </p>
-      </div>
-    </div>
-  );
-};
+import { State } from '@/components/container/state';
+import { STATE_CONFIG } from '@/constants/state.constants';
 
 const MyOrders = () => {
   const router = useRouter();
@@ -90,7 +50,7 @@ const MyOrders = () => {
     resetReview,
   } = useAddReview({ params });
 
-  const { isLoading, isError, error } = queryOrders;
+  const { isLoading, isError } = queryOrders;
 
   const handleClickRestaurant = (restaurantId: number) => {
     router.push(`${PATH.RESTAURANT}/${restaurantId}`);
@@ -116,11 +76,14 @@ const MyOrders = () => {
 
           {isLoading && <Spin />}
           {isError && (
-            <ErrorState error={error} onRetry={() => queryOrders.refetch()} />
+            <State
+              {...STATE_CONFIG.order.error}
+              onAction={() => queryOrders.refetch()}
+            />
           )}
 
           {!isLoading && !isError && (!orders || orders.length === 0) && (
-            <EmptyState />
+            <State {...STATE_CONFIG.order.empty} />
           )}
           {!isLoading && !isError && orders && orders.length > 0 && (
             <>
@@ -205,7 +168,13 @@ const MyOrders = () => {
                                     disabled={addReviewMutation.isPending}
                                     className='w-full'
                                   >
-                                    {addReviewMutation.isPending && <Spin />}
+                                    {addReviewMutation.isPending && (
+                                      <div
+                                        className={cn(
+                                          'animate-spin rounded-full size-5 border-b-2 border-neutral-50'
+                                        )}
+                                      />
+                                    )}
                                     {addReviewMutation.isPending
                                       ? 'Sending...'
                                       : 'Send'}
