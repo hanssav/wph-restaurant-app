@@ -4,8 +4,8 @@ import { useInfiniteQuery, usePrefetchInfinite } from '@/lib/react-query';
 import { restaurantService } from '@/services';
 import {
   GetRestoBestSellerResponse,
-  RestoParams,
   GetRestoResponse,
+  RestoParams,
 } from '@/types';
 import React from 'react';
 

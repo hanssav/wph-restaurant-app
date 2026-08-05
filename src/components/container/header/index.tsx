@@ -27,8 +27,8 @@ const Header = () => {
   const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname.includes(PATH.HOME);
-  const { isScrolled } = useHeaderScroll(50);
 
+  const { isScrolled } = useHeaderScroll(50);
   const { user } = useAppSelector((state: RootState) => state.auth);
 
   const isLogin = !!user;

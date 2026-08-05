@@ -14,7 +14,6 @@ const UserLayout = ({ children }: Props) => {
 
   const pathname = usePathname();
   const isUseLayout = !pathname.includes('success');
-  console.log(isUseLayout, 'isUseLayout');
 
   return (
     <div className='min-h-screen flex flex-col relative bg-white'>

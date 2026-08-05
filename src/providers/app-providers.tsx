@@ -1,19 +1,19 @@
 'use client';
 
-import { Provider } from 'react-redux';
+import { Toaster } from '@/components/ui/sonner';
+import { getErrorMessage } from '@/lib/api';
+import { rehydrateAuth } from '@/store/slice/auth-slice';
+import { store } from '@/store/store';
 import {
   MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import { store } from '@/store/store';
-import { useEffect } from 'react';
-import { rehydrateAuth } from '@/store/slice/auth-slice';
-import { Toaster } from '@/components/ui/sonner';
-import { toast } from 'sonner';
-import { getErrorMessage } from '@/lib/api';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { toast } from 'sonner';
 
 const queryClient = new QueryClient({
   // handle global error useQuery
@@ -33,10 +33,15 @@ const queryClient = new QueryClient({
   }),
   defaultOptions: {
     queries: {
-      retry: false,
+      // retry: false,
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 5, // max fresh data
       gcTime: 1000 * 60 * 10, // cache time
+
+      retry: (failureCount, error: any) => {
+        if (error?.response?.status === 404) return false;
+        return failureCount < 2;
+      },
     },
     mutations: {
       retry: false,

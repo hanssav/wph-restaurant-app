@@ -29,7 +29,9 @@ apiInstance.interceptors.request.use(
 apiInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 404) {
+      console.error('Endpoint Not Found (404):', error.config?.url);
+    } else if (error.response?.status === 401) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
