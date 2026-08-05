@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import { FormFields } from '@/components/container/form-fields';
 import { AuthHeader } from '@/components/pages/auth';
@@ -21,7 +21,7 @@ import { Control, useForm, UseFormReturn } from 'react-hook-form';
 
 type AuthFormData = LoginFormData | RegisterFormData;
 
-const AuthPage = () => {
+const AuthPageContent = () => {
   const { mutate: login, isPending: isPendingLogin } = useLogin();
   const { mutate: register, isPending: isPendingRegister } = useRegister();
 
@@ -130,6 +130,31 @@ const AuthPage = () => {
         })}
       </Tabs>
     </div>
+  );
+};
+
+const AuthPageSkeleton = () => {
+  return (
+    <div className='container-auth space-y-4 md:space-y-5'>
+      <div className='space-y-2'>
+        <div className='h-6 w-32 animate-pulse rounded bg-muted' />
+        <div className='h-4 w-48 animate-pulse rounded bg-muted' />
+      </div>
+      <div className='h-10 w-full animate-pulse rounded bg-muted' />
+      <div className='space-y-3'>
+        <div className='h-10 w-full animate-pulse rounded bg-muted' />
+        <div className='h-10 w-full animate-pulse rounded bg-muted' />
+        <div className='h-10 w-full animate-pulse rounded bg-muted' />
+      </div>
+    </div>
+  );
+};
+
+const AuthPage = () => {
+  return (
+    <Suspense fallback={<AuthPageSkeleton />}>
+      <AuthPageContent />
+    </Suspense>
   );
 };
 
