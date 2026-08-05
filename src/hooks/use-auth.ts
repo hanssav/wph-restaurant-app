@@ -1,10 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAppDispatch } from '@/store/hooks';
-import { useRouter } from 'next/navigation';
-import { logout, setCredentials, updateUser } from '@/store/slice/auth-slice';
+import { PATH } from '@/constants';
+import { clearAuthCookie, setAuthCookie } from '@/lib/action';
 import { LoginFormData, RegisterFormData } from '@/lib/schema';
 import { authService } from '@/services';
-import { PATH } from '@/constants';
+import { useAppDispatch } from '@/store/hooks';
+import { logout, setCredentials, updateUser } from '@/store/slice/auth-slice';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 export const useRegister = () => {
   const dispatch = useAppDispatch();
@@ -25,8 +26,9 @@ export const useLogin = () => {
 
   return useMutation({
     mutationFn: (data: LoginFormData) => authService.login(data),
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       dispatch(setCredentials(response.data));
+      await setAuthCookie(response.data.token);
       router.push(PATH.HOME);
     },
   });
@@ -51,9 +53,10 @@ export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  return () => {
+  return async () => {
     dispatch(logout());
     queryClient.clear();
+    await clearAuthCookie();
     router.push(PATH.AUTH);
   };
 };

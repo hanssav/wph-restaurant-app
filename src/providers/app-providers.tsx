@@ -33,15 +33,10 @@ const queryClient = new QueryClient({
   }),
   defaultOptions: {
     queries: {
-      // retry: false,
+      retry: false,
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 5, // max fresh data
       gcTime: 1000 * 60 * 10, // cache time
-
-      retry: (failureCount, error: any) => {
-        if (error?.response?.status === 404) return false;
-        return failureCount < 2;
-      },
     },
     mutations: {
       retry: false,

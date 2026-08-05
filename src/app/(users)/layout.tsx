@@ -3,6 +3,8 @@ import { Footer } from '@/components/container/footer';
 import Header from '@/components/container/header';
 import { useProfile } from '@/hooks';
 import { cn } from '@/lib/utils';
+import { useAppSelector } from '@/store/hooks';
+import { RootState } from '@/store/store';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -10,7 +12,9 @@ type Props = {
   children: React.ReactNode;
 };
 const UserLayout = ({ children }: Props) => {
-  useProfile();
+  const { user } = useAppSelector((state: RootState) => state.auth);
+
+  if (!!user) useProfile();
 
   const pathname = usePathname();
   const isUseLayout = !pathname.includes('success');
