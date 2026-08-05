@@ -21,8 +21,6 @@ export function middleware(request: NextRequest) {
 
   const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
 
-  console.log('PROXY HIT:', pathname, 'token:', token);
-
   if (isProtectedRoute && !token) {
     return NextResponse.redirect(new URL('/auth?tab=sign-in', request.url));
   }
