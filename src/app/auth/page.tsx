@@ -1,8 +1,13 @@
 'use client';
+
 import React from 'react';
+
+import { FormFields } from '@/components/container/form-fields';
 import { AuthHeader } from '@/components/pages/auth';
-import { authFieldConfig, authTabs, LOGIN_SECTION } from '@/constants';
+import { Button } from '@/components/ui/button';
+import { Form } from '@/components/ui/form';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { authFieldConfig, authTabs, LOGIN_SECTION } from '@/constants';
 import { useLogin, useRegister } from '@/hooks';
 import {
   LoginFormData,
@@ -10,19 +15,30 @@ import {
   RegisterFormData,
   registerSchema,
 } from '@/lib/schema';
-import { useForm, UseFormReturn, Control } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { FormFields } from '@/components/container/form-fields';
+import { useSearchParams } from 'next/navigation';
+import { Control, useForm, UseFormReturn } from 'react-hook-form';
 
 type AuthFormData = LoginFormData | RegisterFormData;
 
 const AuthPage = () => {
-  const [activeTab, setActiveTab] = React.useState(authTabs[0].id);
-
   const { mutate: login, isPending: isPendingLogin } = useLogin();
   const { mutate: register, isPending: isPendingRegister } = useRegister();
+
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
+
+  const initialTab = authTabs.some((t) => t.id === tabParam)
+    ? tabParam
+    : authTabs[0].id;
+
+  const [activeTab, setActiveTab] = React.useState(initialTab);
+
+  React.useEffect(() => {
+    if (tabParam && authTabs.some((t) => t.id === tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
 
   const formLogin = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -59,7 +75,7 @@ const AuthPage = () => {
     <div className='container-auth space-y-4 md:space-y-5'>
       <AuthHeader {...LOGIN_SECTION} />
       <Tabs
-        value={activeTab}
+        value={activeTab!}
         onValueChange={setActiveTab}
         defaultValue={authTabs[0].id}
         className='space-y-4 md:space-y-5'

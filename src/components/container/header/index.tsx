@@ -1,26 +1,26 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { HeaderLogo } from './header-logo';
-import { PATH } from '@/constants';
-import { useAppSelector } from '@/store/hooks';
-import { RootState } from '@/store/store';
-import { HeaderAvatar } from './header-avatar';
-import { HeaderCart } from './header-cart';
-import { HeaderButtonAuth } from './header-button-auth';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { PROFILE_MENU } from './header-constants';
-import { cn } from '@/lib/utils';
-import { Menu } from 'lucide-react';
-import { Avatar } from '../avatar';
-import { useHeaderScroll } from './use-header-scroll';
+import { PATH } from '@/constants';
 import { useLogout } from '@/hooks';
+import { cn } from '@/lib/utils';
+import { useAppSelector } from '@/store/hooks';
+import { RootState } from '@/store/store';
+import { Menu } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Avatar } from '../avatar';
+import { HeaderAvatar } from './header-avatar';
+import { HeaderButtonAuth } from './header-button-auth';
+import { HeaderCart } from './header-cart';
+import { PROFILE_MENU } from './header-constants';
+import { HeaderLogo } from './header-logo';
+import { useHeaderScroll } from './use-header-scroll';
 
 const Header = () => {
   const logout = useLogout();
@@ -29,11 +29,9 @@ const Header = () => {
   const isHome = pathname.includes(PATH.HOME);
   const { isScrolled } = useHeaderScroll(50);
 
-  const { user, token } = useAppSelector((state: RootState) => state.auth);
+  const { user } = useAppSelector((state: RootState) => state.auth);
 
-  const isLogin = !!token;
-
-  if (!user) return;
+  const isLogin = !!user;
 
   return (
     <header
@@ -125,10 +123,14 @@ const Header = () => {
                   sideOffset={20}
                 >
                   <div className='flex-start gap-4'>
-                    <HeaderButtonAuth className='flex-1' variant='outline'>
+                    <HeaderButtonAuth
+                      tab='sign-in'
+                      className='flex-1'
+                      variant='outline'
+                    >
                       Sign In
                     </HeaderButtonAuth>
-                    <HeaderButtonAuth className='flex-1'>
+                    <HeaderButtonAuth tab='sign-up' className='flex-1'>
                       Sign Up
                     </HeaderButtonAuth>
                   </div>
@@ -137,6 +139,7 @@ const Header = () => {
             </div>
             <div className='flex-start gap-4 hidden md:flex'>
               <HeaderButtonAuth
+                tab='sign-in'
                 variant='outline'
                 className={cn(
                   'transition-colors',
@@ -148,6 +151,7 @@ const Header = () => {
                 Sign In
               </HeaderButtonAuth>
               <HeaderButtonAuth
+                tab='sign-up'
                 variant={!isScrolled && isHome ? 'secondary' : 'default'}
               >
                 Sign Up
